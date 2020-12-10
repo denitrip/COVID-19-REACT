@@ -178,7 +178,6 @@ const Map = () => {
       addButton('TotalConfirmed', confirmedColor);
       addButton('TotalRecovered', recoveredColor);
       addButton('TotalDeaths', deathsColor);
-
       let mapGlobeSwitch = mapChart.createChild(am4core.SwitchButton);
       mapGlobeSwitch.align = "right"
       mapGlobeSwitch.y = 15;
