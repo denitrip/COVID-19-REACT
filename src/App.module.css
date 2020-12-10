@@ -1,0 +1,36 @@
+
+.app {
+  display: grid;
+  grid-template-areas: 
+  "header header header"
+  "search search search"
+  "mainList map mainTable"
+  "mainList map graph";
+  grid-template-rows: 2fr 2fr 20fr 8fr;
+  grid-template-columns: 2fr 6fr 3fr;
+  height: 100%;
+}
+
+.header {
+  grid-area: header;
+}
+
+.search {
+  grid-area: search;
+}
+
+.map {
+  grid-area: map;
+}
+
+.mainTable {
+  grid-area: mainTable;
+}
+
+.mainList {
+  grid-area: mainList;
+}
+
+.graph{
+    grid-area: graph;
+}

@@ -2,7 +2,7 @@ import React from 'react'
 const MainList = (props:any) => {
 
     return(
-        <div></div>
+        <div className={props.className}>MainList</div>
     )
 }
 
