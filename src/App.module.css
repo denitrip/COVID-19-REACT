@@ -1,11 +1,14 @@
-
-.app {
-  display: grid;
-  grid-template-areas: 
+:root{
+  --grid-areas:
   "header header header"
   "search search search"
   "mainList map mainTable"
-  "mainList map graph";
+  "mainList map graph"
+}
+
+.app {
+  display: grid;
+  grid-template-areas: var(--grid-areas);
   grid-template-rows: 2fr 2fr 20fr 8fr;
   grid-template-columns: 2fr 6fr 3fr;
   height: 100%;
