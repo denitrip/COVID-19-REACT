@@ -3,7 +3,7 @@ import MainList from './MainList'
 
 const MainListContainer = (props:any) => {
     return (
-        <MainList/>
+        <MainList className={props.className}/>
     )
 }
 
