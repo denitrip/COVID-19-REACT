@@ -2,11 +2,11 @@
 import React from 'react';
 import s from'./App.module.css';
 import Header from './components/Header/Header';
-import SearchContainer from './components/Search/Search';
-import MainListContainer from './components/MainList/MainList';
-import MapContainer from './components/Map/Map';
-import MainTableContainer from './components/MainTable/MainTable';
-import GraphContainer from './components/Graph/Graph';
+import SearchContainer from './components/Search/SearchContainer';
+import MainListContainer from './components/MainList/MainListContainer';
+import MapContainer from './components/Map/MapContainer';
+import MainTableContainer from './components/MainTable/MainTableContainer';
+import GraphContainer from './components/Graph/GraphContainer';
 
 function App() {
   return (
