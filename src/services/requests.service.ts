@@ -1,5 +1,6 @@
+import { COVID_API_URL } from "../constants";
 import { ICovidData } from "../model";
 
-export const fetchCovidData = (url: string): Promise<ICovidData> => {
-    return fetch(url).then(res => res.json())
+export const fetchCovidData = (): Promise<ICovidData> => {
+    return fetch(COVID_API_URL).then(res => res.json())
 };

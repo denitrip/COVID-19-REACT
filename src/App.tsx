@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Header/>
-      <Map url="https://api.covid19api.com/summary"></Map> 
+      <Map></Map> 
     </div>
   );
 }
