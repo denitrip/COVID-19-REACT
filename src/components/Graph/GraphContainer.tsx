@@ -3,7 +3,7 @@ import Graph from './Graph'
 
 const GraphContainer = (props:any) => {
     return (
-        <Graph/>
+        <Graph className={props.className}/>
     )
 }
 

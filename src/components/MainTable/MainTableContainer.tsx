@@ -3,7 +3,7 @@ import MainTable from './MainTable'
 
 const MainTableContainer = (props:any) => {
     return (
-        <MainTable/>
+        <MainTable className={props.className}/>
     )
 }
 
