@@ -4,7 +4,7 @@ import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { fetchCovidData } from '../../services';
-import { ICovidData, IGlobal } from '../../model';
+import { ICovidData } from '../../model';
 
 
 am4core.useTheme(am4themes_animated);
@@ -31,7 +31,6 @@ const Map = () => {
     const chart = useRef<any>(null);
   
     useLayoutEffect(() => {
-      let backgroundColor = am4core.color("#1e2128");
       let activeColor = am4core.color("#ff8726");
       let confirmedColor = am4core.color("#d21a1a");
       let recoveredColor = am4core.color("#45d21a");
@@ -44,12 +43,10 @@ const Map = () => {
     let countryStrokeColor = am4core.color("#000000");
     let buttonStrokeColor = am4core.color("#ffffff");
     let countryHoverColor = am4core.color("#1b1b1b");
-    let activeCountryColor = am4core.color("#0f0f0f");
 
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
-      // let x = am4core.create("chartdiv", am4maps.MapChart);
 
       container.tooltip = new am4core.Tooltip(); 
       container.tooltip.background.fill = am4core.color("#000000");
@@ -64,7 +61,6 @@ const Map = () => {
       mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
   
       let mapData = stats ? stats.Countries : [];
-      console.log(mapData)
   
       // Set map definition
       mapChart.geodata = am4geodata_worldLow;
@@ -111,7 +107,7 @@ const Map = () => {
   
       let circle = imageTemplate.createChild(am4core.Circle);
       circle.fillOpacity = 0.7;
-      circle.propertyFields.fill = "color";
+      circle.fill = am4core.color('#ffd700');
       circle.tooltipText = "{Country}: [bold]{value}[/]";
   
   
@@ -154,11 +150,8 @@ const Map = () => {
         button.label.fill = am4core.color("#ffffff");
         button.label.fontSize = "11px";
         button.background.cornerRadius(30, 30, 30, 30);
-        button.background.strokeOpacity = 0.3
-        button.background.fillOpacity = 0;
         button.background.stroke = buttonStrokeColor;
         button.background.padding(2, 3, 2, 3);
-        // button.states.create("active");
         button.setStateOnChildren = true;
 
         let circle2 = new am4core.Circle();
@@ -169,9 +162,6 @@ const Map = () => {
         circle2.valign = "middle";
         circle2.marginRight = 5;
         button.icon = circle2;
-    
-        // let activeHoverState = button.background.states.create("hoverActive");
-        // activeHoverState.properties.fillOpacity = 0;
     
         // save name to dummy data for later use
         button.dummyData = name;
@@ -188,41 +178,6 @@ const Map = () => {
       addButton('TotalConfirmed', confirmedColor);
       addButton('TotalRecovered', recoveredColor);
       addButton('TotalDeaths', deathsColor);
-    
-      // function showWorld() {
-      //   currentCountry = "World";
-      //   currentPolygon = undefined;
-      //   resetHover();
-    
-      //   if (countryDataTimeout) {
-      //     clearTimeout(countryDataTimeout);
-      //   }
-    
-      //   // make all inactive
-      //   polygonSeries.mapPolygons.each(function(polygon) {
-      //     polygon.isActive = false;
-      //   })
-    
-      //   updateCountryName();
-    
-      //   // update line chart data (again, modifying instead of setting new data for a nice animation)
-      //   for (var i = 0; i < lineChart.data.length; i++) {
-      //     let di = covid_total_timeline[i];
-      //     let dataContext = lineChart.data[i];
-    
-      //     dataContext.recovered = di.recovered;
-      //     dataContext.confirmed = di.confirmed;
-      //     dataContext.deaths = di.deaths;
-      //     dataContext.active = di.confirmed - di.recovered;
-      //     valueAxis.min = undefined;
-      //     valueAxis.max = undefined;
-      //   }
-    
-      //   lineChart.invalidateRawData();
-    
-      //   updateTotals(currentIndex);
-      //   mapChart.goHome();
-      // }
 
       let mapGlobeSwitch = mapChart.createChild(am4core.SwitchButton);
       mapGlobeSwitch.align = "right"
