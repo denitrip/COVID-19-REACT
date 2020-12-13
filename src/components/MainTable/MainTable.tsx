@@ -14,7 +14,6 @@ const MainTable = (props:IMainTableProps) => {
         )
     })
       
-    console.log(props) 
     return(
         <div className={[props.className, s.wrapper].join(' ')}>
             <p className={s.countryName}>{props.payload.country}</p>
