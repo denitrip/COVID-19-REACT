@@ -4,7 +4,7 @@ import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { fetchCovidData } from '../../services';
-import { ICovidData, IGlobal } from '../../model';
+import { ICovidData } from '../../model';
 
 
 am4core.useTheme(am4themes_animated);
@@ -48,6 +48,10 @@ const Map = () => {
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
 
+      container.tooltip = new am4core.Tooltip(); 
+      container.tooltip.background.fill = am4core.color("#000000");
+      container.tooltip.background.stroke = activeColor;
+
       let mapChart = container.createChild(am4maps.MapChart);
       mapChart.height = am4core.percent(80);
       mapChart.zoomControl = new am4maps.ZoomControl();
@@ -57,7 +61,6 @@ const Map = () => {
       mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
   
       let mapData = stats ? stats.Countries : [];
-      console.log(mapData)
   
       // Set map definition
       mapChart.geodata = am4geodata_worldLow;
