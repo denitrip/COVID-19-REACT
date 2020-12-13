@@ -1,0 +1,40 @@
+.wrapper{
+    background-color: lightcyan;
+}
+.countryName{
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.table_label{
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+.table_data{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.table_section{
+    display: grid;
+    grid-template-rows: repeat(3,1fr);
+    grid-template-columns: repeat(2,1fr);
+}
+.table_element:nth-child(3) .table_data, .table_element:nth-child(4) .table_data{
+    color: red;
+}
+.table_element:nth-child(5) .table_data, .table_element:nth-child(6) .table_data{
+    color: forestgreen;
+}
+
+.switchSection{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.6rem;
+    text-align: center;
+}
