@@ -3,7 +3,7 @@ import React from 'react'
 const Search = (props:any) => {
 
     return(
-        <div></div>
+        <div className={props.className}>Search</div>
     )
 }
 

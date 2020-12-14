@@ -5,7 +5,7 @@ import MainListGraph from "./MenuListGraph";
 import { getData, useFetch } from "./service";
 import { IWord, ICountry } from "./service";
 
-const GraphContainer: React.FC = (props) => {
+const GraphContainer: React.FC = (props: any) => {
   const [country, setCountry] = useState<any>("belarus");
   const [isword, setIsWord] = useState<boolean>(true);
   const [daily, setDaily] = useState<boolean>(true);
@@ -16,10 +16,10 @@ const GraphContainer: React.FC = (props) => {
     isword ? urlWord : urlCountry
   );
   const updateDaily = (value: boolean): void => setDaily(value);
-
   return (
     <>
       <Graph
+        className={props.className}
         response={response}
         isLoading={isLoading}
         daily={daily}

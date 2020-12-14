@@ -3,7 +3,7 @@ import Map from './Map'
 
 const MapContainer = (props:any) => {
     return (
-        <Map/>
+        <Map className={props.className}/>
     )
 }
 

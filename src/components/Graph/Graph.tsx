@@ -38,8 +38,8 @@ const options = {
             return label >= 1000000
               ? label / 1000000 + "M"
               : label >= 1000
-                ? label / 1000 + "K"
-                : label;
+              ? label / 1000 + "K"
+              : label;
           },
         },
       },
@@ -48,6 +48,7 @@ const options = {
 };
 
 interface Props {
+  className: string;
   response: any;
   isWord: boolean;
   chartContainer: any;
@@ -56,6 +57,7 @@ interface Props {
 }
 
 const Graph: React.FC<Props> = ({
+  className,
   response,
   isLoading,
   isWord,
@@ -78,12 +80,12 @@ const Graph: React.FC<Props> = ({
       </div>
     );
   return (
-    <div className={style.graph}>
+    <div className={className}>
       {daily ? (
         <Bar data={data} options={options} ref={chartContainer} />
       ) : (
-          <Line data={data} options={options} ref={chartContainer} />
-        )}
+        <Line data={data} options={options} ref={chartContainer} />
+      )}
     </div>
   );
 };

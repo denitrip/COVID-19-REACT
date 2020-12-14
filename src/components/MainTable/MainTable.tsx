@@ -3,7 +3,7 @@ import React from 'react'
 const MainTable = (props:any) => {
 
     return(
-        <div></div>
+        <div className={props.className}>MainTable</div>
     )
 }
 
