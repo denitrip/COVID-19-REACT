@@ -3,14 +3,15 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { fetchCovidData } from '../../services';
-import { ICovidData } from '../../model';
+import { fetchCovidData, fetchPopulationAndFlags } from '../../services';
+import { ICovidData, IPopulationAndFlags } from '../../model';
 
 
 am4core.useTheme(am4themes_animated);
 
 const Map = (props: {className:string}) => {
     const [stats, setStats] = useState<ICovidData>();
+    const [flags, setFlags] = useState<IPopulationAndFlags>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
   
@@ -18,7 +19,9 @@ const Map = (props: {className:string}) => {
       const fetchData = async () => {
         try {
           const data = await fetchCovidData();
+          const flagsDate = await fetchPopulationAndFlags();
           setStats(data);
+          setFlags(flagsDate);
           setLoading(false);
         } catch (error) {
           setError(error);
@@ -27,7 +30,7 @@ const Map = (props: {className:string}) => {
       fetchData()
     }, []);
   
-  
+  console.log(flags);
     const chart = useRef<any>(null);
   
     useLayoutEffect(() => {
