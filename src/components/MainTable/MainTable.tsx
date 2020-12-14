@@ -1,6 +1,6 @@
 import React from 'react'
 import Switch from '../Switch/Switch';
-import s from './MainTable.module.css';
+import s from './MainTable.module.scss';
 import {IdataField, IMainTableProps} from '../../model/main-table.model'
 
 const MainTable = (props:IMainTableProps) => {

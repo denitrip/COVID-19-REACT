@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import './Switch.css'
+import './Switch.scss'
 import {ISwitchProps} from '../../model/switch.model'
 class Switch extends Component<ISwitchProps> {
   render() {
