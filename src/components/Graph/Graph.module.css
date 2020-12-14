@@ -1,0 +1,18 @@
+.container {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spiner {
+  width: 100px;
+  height: 100px;
+  background-image: url(./Spinner-1s-200px.svg);
+  background-repeat: no-repeat;
+  background-size: 100px;
+}
+.graph {
+  width: 100%;
+  height: 500px;
+}
