@@ -1,33 +1,16 @@
-import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { fetchCovidData, fetchPopulationAndFlags } from "../../services";
-import { ICovidData, IPopulationAndFlags } from "../../model";
+// import { fetchCovidData, fetchPopulationAndFlags } from "../../services";
+// import { ICovidData, IPopulationAndFlags } from "../../model";
 
 am4core.useTheme(am4themes_animated);
 
-const Map = (props: { className: string }) => {
-  const [stats, setStats] = useState<ICovidData>();
-  const [flags, setFlags] = useState<IPopulationAndFlags[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchCovidData();
-        const flagsDate = await fetchPopulationAndFlags();
-        setStats(data);
-        setFlags(flagsDate);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-      }
-    };
-    fetchData();
-  }, []);
+const Map = (props: { data: any }) => {
+  
+  const data = props.data;
 
   const chart = useRef<any>(null);
 
@@ -65,7 +48,7 @@ const Map = (props: { className: string }) => {
     mapChart.zoomControl.valign = "middle";
     mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
 
-    let mapData = stats ? stats.Countries : [];
+    let mapData = data ? data.Countries : [];
 
     // Set map definition
     mapChart.geodata = am4geodata_worldLow;
@@ -145,7 +128,7 @@ const Map = (props: { className: string }) => {
       return longitude;
     });
 
-    const totalData = stats ? stats.Global : [];
+    const totalData = data ? data.Global : [];
 
     function changeDataType(name: string) {
       imageSeries.dataFields.value = name;
@@ -202,11 +185,11 @@ const Map = (props: { className: string }) => {
     return () => {
       container.dispose();
     };
-  }, [stats]);
+  }, [data]);
 
   return (
     <div
-      className={props.className}
+      // className={props.className}
       id="chartdiv"
       style={{ width: "100%", height: "100%" }}
     ></div>
