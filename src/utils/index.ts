@@ -1,6 +1,6 @@
 import { fetchCovidData, fetchPopulationAndFlags } from '../services';
 
-export const test = (): Promise<any> => {
+export const commonData = (): Promise<any> => {
     return Promise.all([fetchCovidData(), fetchPopulationAndFlags()])
         .then(values => {
             const obj = values[0].Countries.reduce((mod, el) => {

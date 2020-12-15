@@ -7,7 +7,7 @@ import MainListContainer from './components/MainList/MainListContainer';
 import MapContainer from './components/Map/MapContainer';
 import MainTableContainer from './components/MainTable/MainTableContainer';
 import GraphContainer from './components/Graph/GraphContainer';
-import { test } from './utils';
+import { commonData } from './utils';
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
       const fetchData = async () => {
       try {
-          const dataObj = await test();
+          const dataObj = await commonData();
           
           setData(dataObj);
       } catch (error) {
