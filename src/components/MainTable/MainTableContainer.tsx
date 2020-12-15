@@ -4,15 +4,26 @@ import { IdataField } from '../../model/main-table.model'
 
 const MainTableContainer = (props: any) => {
     let [checked, setCheked] = useState<boolean>(false);
-    let data: Array<IdataField> = [
-        { title: 'NewConfirmed', count: 5415 },
-        { title: 'TotalConfirmed', count: 265003 },
-        { title: 'NewDeaths', count: 171 },
-        { title: 'TotalDeaths', count: 6451 },
-        { title: 'NewRecovered', count: 1092 },
-        { title: 'TotalRecovered', count: 77362 },
+    let fieldsForData = [
+        'NewConfirmed','NewDeaths','NewRecovered','TotalConfirmed','TotalDeaths','TotalRecovered'
     ]
-    const country = 'Hungary';
+    let otherData = {
+        Country: "Russian Federation",
+        CountryCode: "RU",
+        Date: "2020-12-14T14:37:49Z",
+        NewConfirmed: 27651,
+        NewDeaths: 481,
+        NewRecovered: 20177,
+        Premium: {},
+        Slug: "russia",
+        TotalConfirmed: 2629699,
+        TotalDeaths: 46404,
+        TotalRecovered: 2086887,
+    }
+    let data = Object.entries(otherData).map(([key,value]) => { return {title:key.toString(), count:+value}
+    }).filter(el => {return fieldsForData.includes(el.title)})
+
+    const country = otherData.Country;
     const switchData = { onSwitchChange: setCheked, switchChecked: checked }
     useEffect(() => props.updateCheckAbsolut(checked), [checked])
     useEffect(() => setCheked(props.checkAbsolut), [props.checkAbsolut])
