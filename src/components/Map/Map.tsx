@@ -9,11 +9,11 @@ am4core.useTheme(am4themes_animated);
 const Map = (props: { data: any, className: string }) => {
   
   const data = props.data;
-  console.log(data)
 
   const chart = useRef<any>(null);
 
   useLayoutEffect(() => {
+    let backgroundColor = am4core.color("#1e2128");
     let activeColor = am4core.color("#ff8726");
     let confirmedColor = am4core.color("#d21a1a");
     let recoveredColor = am4core.color("#45d21a");
@@ -34,22 +34,22 @@ const Map = (props: { data: any, className: string }) => {
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
-
+    container.background.fill = backgroundColor;
     container.tooltip = new am4core.Tooltip();
     container.tooltip.background.fill = am4core.color("#000000");
     container.tooltip.background.stroke = activeColor;
 
     let mapChart = container.createChild(am4maps.MapChart);
-    mapChart.width = am4core.percent(90);
+    mapChart.width = am4core.percent(100);
+    mapChart.height = am4core.percent(100);
     mapChart.align = 'center';
     mapChart.zoomControl = new am4maps.ZoomControl();
     mapChart.zoomControl.align = "right";
-    mapChart.zoomControl.marginRight = 15;
-    mapChart.zoomControl.valign = "middle";
+    mapChart.zoomControl.x = 0;
+    mapChart.zoomControl.valign = "bottom";
     mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
 
     let mapData = data ? data.Countries : [];
-    console.log(data)
 
     // Set map definition
     mapChart.geodata = am4geodata_worldLow;
@@ -78,6 +78,8 @@ const Map = (props: { data: any, className: string }) => {
     polygonTemplate.stroke = countryStrokeColor;
     polygonTemplate.strokeOpacity = 0.15;
     polygonTemplate.setStateOnChildren = true;
+    polygonTemplate.hoverOnFocus = true;
+    polygonTemplate.tooltipPosition = 'fixed';
 
     let polygonHoverState = polygonTemplate.states.create("hover");
     polygonHoverState.transitionDuration = 1400;
@@ -95,11 +97,12 @@ const Map = (props: { data: any, className: string }) => {
 
     let imageTemplate = imageSeries.mapImages.template;
     imageTemplate.nonScaling = true;
+    imageTemplate.tooltipText = "{Country}: [bold]{value}[/]";
 
     let circle = imageTemplate.createChild(am4core.Circle);
     circle.fillOpacity = 0.7;
-    circle.tooltipText = "{Country}: [bold]{value}[/]";
-    circle.fill = am4core.color("#ffd700");
+    
+    circle.fill = confirmedColor;
 
     imageSeries.heatRules.push({
       target: circle,
@@ -129,10 +132,7 @@ const Map = (props: { data: any, className: string }) => {
       return longitude;
     });   
 
-    const totalData = data ? data.Global : {};
-    console.log(totalData)
-
-    
+    const totalData = data ? data.Global : {}; 
 
     const confirmedButton = addButton('confirmed', confirmedColor, buttonsContainer, totalData);
     const recoveredButton = addButton('recovered', recoveredColor, buttonsContainer, totalData);
@@ -164,7 +164,7 @@ const Map = (props: { data: any, className: string }) => {
       showData = `${showData}${mapDataSwitch.isActive ? 'Relative' : ''}`;
 
       imageSeries.dataFields.value = showData;
-      
+      imageSeries.heatRules.getIndex(0).max = mapDataSwitch.isActive ? 10 : 30;     
       imageSeries.invalidateData();     
 
       circle.fill = colors[name];
@@ -211,15 +211,15 @@ const Map = (props: { data: any, className: string }) => {
     let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDataSwitch.x = 150;
     mapDataSwitch.leftLabel.text = "Absolute";
-    mapDataSwitch.leftLabel.fill = am4core.color("black");
-    mapDataSwitch.rightLabel.fill = am4core.color("black");
+    mapDataSwitch.leftLabel.fill = am4core.color("white");
+    mapDataSwitch.rightLabel.fill = am4core.color("white");
     mapDataSwitch.rightLabel.text = "Per 100k";
     mapDataSwitch.verticalCenter = "top";
 
     let mapDaySwitch = switcherContainer.createChild(am4core.SwitchButton);   
     mapDaySwitch.leftLabel.text = "Total";
-    mapDaySwitch.leftLabel.fill = am4core.color("black");
-    mapDaySwitch.rightLabel.fill = am4core.color("black");
+    mapDaySwitch.leftLabel.fill = am4core.color("white");
+    mapDaySwitch.rightLabel.fill = am4core.color("white");
     mapDaySwitch.rightLabel.text = "Last day";
     mapDaySwitch.verticalCenter = "top";
 
@@ -237,6 +237,49 @@ const Map = (props: { data: any, className: string }) => {
       const currentCountry = polygonSeries.getPolygonById(id);
       mapChart.zoomToMapObject(currentCountry)
     };
+
+    function resetHover() {
+      polygonSeries.mapPolygons.each(polygon => {
+        const polygonCopy = polygon;
+        polygonCopy.isHover = false;
+      })
+
+      imageSeries.mapImages.each(image => {
+        const img = image;
+        img.isHover = false;
+      })
+    }
+
+    function rollOverCountry(mapPolygon) {
+      resetHover();
+      const mapPolygonCopy = mapPolygon;
+      if(mapPolygonCopy) {
+        mapPolygonCopy.isHover = true;
+      }
+      const image: any = imageSeries.getImageById(mapPolygonCopy.dataItem.dataContext.id)
+      if(image) {
+        image.dataItem.dataContext.name = mapPolygonCopy.dataItem.dataContext.name;
+        image.isHover = true;
+      }
+    }
+
+    function handleCountryHover(e) {
+      rollOverCountry(e.target)
+    }
+
+    function handleImageHover(e) {
+      rollOverCountry(polygonSeries.getPolygonById(e.target.dataItem.dataContext.id))
+    }
+
+    polygonTemplate.events.on('over', handleCountryHover);
+    polygonTemplate.events.on('out', resetHover);
+
+    polygonTemplate.events.on('over', handleImageHover);
+    polygonTemplate.events.on('out', resetHover);
+
+    polygonTemplate.events.on("hit", function(ev) {
+      ev.target.series.chart.zoomToMapObject(ev.target)
+    });
 
     chart.current = container;
 

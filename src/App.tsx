@@ -31,7 +31,7 @@ function App() {
       <MainListContainer className={s.mainList}/>
       <MapContainer data={data} className={s.map}/>
       <MainTableContainer className={s.mainTable}/>
-      <GraphContainer className={s.graph}/>
+      <GraphContainer data={data} className={s.graph}/>
     </div>
   );
 }
