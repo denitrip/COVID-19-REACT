@@ -1,10 +1,71 @@
-import React from 'react'
-import Graph from './Graph'
+import React, { MutableRefObject, useRef, useState } from "react";
+import { ICovidData } from "../../model";
+import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
+import { useFetch } from "../../services/graph.services";
+import Switch from "../Switch/Switch";
+import Graph from "./Graph";
+import MainListGraph from "./MenuListGraph";
 
-const GraphContainer = (props:any) => {
-    return (
-        <Graph className={props.className}/>
-    )
+interface Props {
+  className: string;
+  data: ICovidData;
 }
 
-export default GraphContainer
+const GraphContainer: React.FC<Props> = (props) => {
+  const [country, setCountry] = useState<string>("belarus");
+  const [isword, setIsWord] = useState<boolean>(true);
+  const [daily, setDaily] = useState<boolean>(true);
+  const [objChart, setObjChart] = useState<IOdjectChart>({
+    daily: daily,
+    type: "linear",
+    cases: "cases",
+  });
+  let [checked, setCheked] = useState<boolean>(false);
+  const chartContainer = useRef(null);
+  const urlWord = `https://disease.sh/v3/covid-19/historical/all?lastdays=366`;
+  const urlCountry = `https://disease.sh/v3/covid-19/historical/${country}?lastdays=366`;
+  const {
+    response,
+    error,
+    isLoading,
+  }: { response: ICountryGraph; isLoading: boolean; error: Error } = useFetch(
+    isword ? urlWord : urlCountry
+  );
+  const updateDaily = (value: boolean): void => setDaily(value);
+  const updateObjectChart = (
+    valueDaily: boolean,
+    valueType: string,
+    valueCases: string
+  ): void =>
+    setObjChart({
+      daily: valueDaily,
+      type: valueType,
+      cases: valueCases,
+    });
+  const switchData = { onSwitchChange: setCheked, switchChecked: checked };
+  return (
+    <div className={props.className}>
+      <Switch
+        name="switchGraph"
+        checked={switchData.switchChecked}
+        onChange={switchData.onSwitchChange}
+      />
+      <Graph
+        data={props.data}
+        objChart={objChart}
+        checked={checked}
+        response={response}
+        isLoading={isLoading}
+        daily={daily}
+        chartContainer={chartContainer}
+        isWord={isword}
+      />
+      <MainListGraph
+        updateObjectChart={updateObjectChart}
+        updateDaily={updateDaily}
+      />
+    </div>
+  );
+};
+
+export default GraphContainer;

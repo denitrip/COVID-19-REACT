@@ -1,7 +1,7 @@
-export interface ISwitchProps{
-    Name:string,
-    checked:boolean,
-    Yes?:string,
-    No?:string,
-    onChange:Function,
+export interface ISwitchProps {
+  name: string;
+  checked: boolean;
+  Yes?: string;
+  No?: string;
+  onChange: Function;
 }

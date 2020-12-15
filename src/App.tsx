@@ -1,29 +1,27 @@
-
-import React, { useEffect, useState } from 'react';
-import s from'./App.module.css';
-import Header from './components/Header/Header';
-import SearchContainer from './components/Search/SearchContainer';
-import MainListContainer from './components/MainList/MainListContainer';
-import MapContainer from './components/Map/MapContainer';
-import MainTableContainer from './components/MainTable/MainTableContainer';
-import GraphContainer from './components/Graph/GraphContainer';
-import { commonData } from './utils';
+import React, { useEffect, useState } from "react";
+import s from "./App.module.css";
+import Header from "./components/Header/Header";
+import SearchContainer from "./components/Search/SearchContainer";
+import MainListContainer from "./components/MainList/MainListContainer";
+import MapContainer from "./components/Map/MapContainer";
+import MainTableContainer from "./components/MainTable/MainTableContainer";
+import GraphContainer from "./components/Graph/GraphContainer";
+import { commonData } from "./utils";
 
 function App() {
-
   const [data, setData] = useState<any>();
   const [error, setError] = useState();
   useEffect(() => {
-      const fetchData = async () => {
+    const fetchData = async () => {
       try {
-          const dataObj = await commonData();
-          
-          setData(dataObj);
+        const dataObj = await commonData();
+
+        setData(dataObj);
       } catch (error) {
-          setError(error);
+        setError(error);
       }
-      }
-      fetchData()
+    };
+    fetchData();
   }, []);
 
   return (
