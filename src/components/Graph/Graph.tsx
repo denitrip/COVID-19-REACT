@@ -1,22 +1,28 @@
 import React, { useEffect } from "react";
 import style from "./Graph.module.css";
 import { Bar, Line } from "react-chartjs-2";
-import { updateChart } from "./service";
+import { updateChart } from "../../services/requests.service";
 
 const data: any = {
   labels: [],
   datasets: [
     {
-      label: "",
+      barPercentage: 0.1,
+      barThickness: 1,
+
       data: [],
       fill: false,
-      backgroundColor: "green",
-      borderColor: "green",
+      backgroundColor: " red",
+      borderColor: "red",
     },
   ],
 };
 
 const options = {
+  legend: {
+    display: false,
+  },
+
   scales: {
     xAxes: [
       {
@@ -34,12 +40,15 @@ const options = {
         type: "linear",
         ticks: {
           beginAtZero: true,
+
           callback: function (label: number) {
-            return label >= 1000000
-              ? label / 1000000 + "M"
-              : label >= 1000
-              ? label / 1000 + "K"
-              : label;
+            if (Math.floor(label) === label) {
+              return label >= 1000000
+                ? label / 1000000 + "M"
+                : label >= 1000
+                ? label / 1000 + "K"
+                : label;
+            }
           },
         },
       },
@@ -48,7 +57,6 @@ const options = {
 };
 
 interface Props {
-  className: string;
   response: any;
   isWord: boolean;
   chartContainer: any;
@@ -57,7 +65,6 @@ interface Props {
 }
 
 const Graph: React.FC<Props> = ({
-  className,
   response,
   isLoading,
   isWord,
@@ -80,7 +87,7 @@ const Graph: React.FC<Props> = ({
       </div>
     );
   return (
-    <div className={className}>
+    <div>
       {daily ? (
         <Bar data={data} options={options} ref={chartContainer} />
       ) : (

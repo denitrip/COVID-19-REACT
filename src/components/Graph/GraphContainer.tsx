@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
+import { useFetch } from "../../services/requests.service";
 import Graph from "./Graph";
-import style from "./Graph.module.css";
 import MainListGraph from "./MenuListGraph";
-import { getData, useFetch } from "./service";
-import { IWord, ICountry } from "./service";
 
-const GraphContainer: React.FC = (props: any) => {
+interface Props {
+  className: string;
+}
+
+const GraphContainer: React.FC<Props> = (props: any) => {
   const [country, setCountry] = useState<any>("belarus");
   const [isword, setIsWord] = useState<boolean>(true);
   const [daily, setDaily] = useState<boolean>(true);
@@ -17,9 +19,8 @@ const GraphContainer: React.FC = (props: any) => {
   );
   const updateDaily = (value: boolean): void => setDaily(value);
   return (
-    <>
+    <div className={props.className}>
       <Graph
-        className={props.className}
         response={response}
         isLoading={isLoading}
         daily={daily}
@@ -33,7 +34,7 @@ const GraphContainer: React.FC = (props: any) => {
         chartContainer={chartContainer}
         isWord={isword}
       />
-    </>
+    </div>
   );
 };
 

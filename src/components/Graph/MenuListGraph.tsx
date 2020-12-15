@@ -1,5 +1,6 @@
 import React from "react";
-import { updateChart } from "./service";
+import { updateChart } from "../../services/requests.service";
+
 interface Props {
   response: any;
   isWord: boolean;
@@ -30,7 +31,7 @@ const MainListGraph: React.FC<Props> = ({
     );
   };
   return (
-    <>
+    <div>
       {dataMenu.map((item, i) => {
         return (
           <button key={i} onClick={() => handleClick(item.word, item.boolean)}>
@@ -38,7 +39,7 @@ const MainListGraph: React.FC<Props> = ({
           </button>
         );
       })}
-    </>
+    </div>
   );
 };
 
