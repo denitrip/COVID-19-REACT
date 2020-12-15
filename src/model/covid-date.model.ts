@@ -24,9 +24,3 @@ export interface IGlobal {
   NewRecovered: number;
   TotalRecovered: number;
 }
-
-export interface IWord {
-  cases: { [name: string]: number };
-  deaths: { [name: string]: number };
-  recovered: { [name: string]: number };
-}
