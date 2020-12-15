@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { MutableRefObject, useRef, useState } from "react";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
 import { useFetch } from "../../services/graph.services";
@@ -20,8 +20,8 @@ const GraphContainer: React.FC<Props> = (props) => {
     type: "linear",
     cases: "cases",
   });
-  let [checked, setCheked] = useState(false);
-  const chartContainer = useRef<any>(null);
+  let [checked, setCheked] = useState<boolean>(false);
+  const chartContainer = useRef(null);
   const urlWord = `https://disease.sh/v3/covid-19/historical/all?lastdays=366`;
   const urlCountry = `https://disease.sh/v3/covid-19/historical/${country}?lastdays=366`;
   const {
@@ -46,7 +46,7 @@ const GraphContainer: React.FC<Props> = (props) => {
   return (
     <div className={props.className}>
       <Switch
-        Name="switc"
+        name="switchGraph"
         checked={switchData.switchChecked}
         onChange={switchData.onSwitchChange}
       />

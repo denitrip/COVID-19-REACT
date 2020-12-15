@@ -11,7 +11,7 @@ interface Props {
   checked: boolean;
   response: ICountryGraph;
   isWord: boolean;
-  chartContainer: any;
+  chartContainer: { current: Bar | Line };
   daily: boolean;
   isLoading: boolean;
 }

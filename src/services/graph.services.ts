@@ -29,18 +29,18 @@ export function updateChart(
   type: string,
   checked: boolean
 ) {
-  chart.current.props.data.labels.length = 0;
-  chart.current.props.data.datasets[0].data.length = 0;
+  const chartData = chart.current.chartInstance.data;
+  const chartOptions = chart.current.chartInstance.options;
+  chartData.labels.length = 0;
+  chartData.datasets[0].data.length = 0;
 
   Object.entries(obj).forEach(([key, value], i, arr: any) => {
     if (i === 0) {
-      chart.current.props.data.labels.push(key);
-      chart.current.props.data.datasets[0].data.push(
-        !checked ? value : value / 100000
-      );
+      chartData.labels.push(key);
+      chartData.datasets[0].data.push(!checked ? value : value / 100000);
     } else {
-      chart.current.props.data.labels.push(key);
-      chart.current.props.data.datasets[0].data.push(
+      chartData.labels.push(key);
+      chartData.datasets[0].data.push(
         daily
           ? !checked
             ? arr[i][1] - arr[i - 1][1]
@@ -51,7 +51,6 @@ export function updateChart(
       );
     }
   });
-  chart.current.chartInstance.options.scales.yAxes[0].type = type;
-  chart.current.props.options.scales.yAxes[0].type = type;
+  chartOptions.scales.yAxes[0].type = type;
   chart.current.chartInstance.update();
 }
