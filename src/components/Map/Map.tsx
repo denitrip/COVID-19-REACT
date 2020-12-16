@@ -8,9 +8,9 @@ import { ICovidData, IGlobal, ICommonData } from "../../model";
 am4core.useTheme(am4themes_animated);
 
 
-const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Function, className: string }) => {
+const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolut: Function, className: string }) => {
   const { data, checkAbsolut, updateCheckAbsolut } = props;
-  const [checked, setCheked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false);
   const chart = useRef<any>(null);
 
   useEffect(() => { updateCheckAbsolut(checked) }, [checked])
@@ -230,6 +230,7 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
     mapDataSwitch.events.on('toggled', () => {
       const name = activeButton.dummyData;
       changeDataType(name);
+      setChecked(mapDataSwitch.isActive)
     })
 
     mapDaySwitch.events.on('toggled', () => {
