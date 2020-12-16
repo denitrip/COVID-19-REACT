@@ -1,9 +1,9 @@
 import React from 'react'
 import Map from './Map'
 
-const MapContainer = (props:any) => {
+const MapContainer = (props: any) => {
     return (
-        <Map data={props.data}/>
+        <Map updateCheckAbsolut={props.updateCheckAbsolut} checkAbsolut={props.checkAbsolut} data={props.data} />
     )
 }
 

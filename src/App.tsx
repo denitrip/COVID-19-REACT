@@ -11,6 +11,7 @@ import { commonData } from "./utils";
 function App() {
   const [data, setData] = useState<any>();
   const [error, setError] = useState();
+  const [checkAbsolut, setCheckAbsolut] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,14 +25,18 @@ function App() {
     fetchData();
   }, []);
 
+  const updateCheckAbsolut = (value: boolean) => {
+    setCheckAbsolut(value)
+  }
+
   return (
     <div className={s.app}>
       <Header className={s.header} />
       <SearchContainer className={s.search} />
       <MainListContainer className={s.mainList} />
-      <MapContainer data={data} />
-      <MainTableContainer className={s.mainTable} />
-      <GraphContainer data={data} className={s.graph} />
+      <MapContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} />
+      <MainTableContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} className={s.mainTable} />
+      <GraphContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} className={s.graph} />
     </div>
   );
 }

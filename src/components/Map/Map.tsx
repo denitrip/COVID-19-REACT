@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
@@ -6,12 +6,14 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
-const Map = (props: { data: any }) => {
-  
-  const data = props.data;
+const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Function }) => {
+  const { data, checkAbsolut, updateCheckAbsolut } = props;
+  const [checked, setCheked] = useState<boolean>(false);
+
   // console.log(data)
 
   const chart = useRef<any>(null);
+  useEffect(() => { updateCheckAbsolut(checked) }, [checked])
 
   useLayoutEffect(() => {
     let activeColor = am4core.color("#ff8726");
@@ -178,13 +180,19 @@ const Map = (props: { data: any }) => {
     mapGlobeSwitch.rightLabel.fill = am4core.color("#ffffff");
     mapGlobeSwitch.rightLabel.text = "Per 100k";
     mapGlobeSwitch.verticalCenter = "top";
-
+    mapGlobeSwitch.events.on("toggled", function () {
+      setCheked(mapGlobeSwitch.isActive)
+    })
     chart.current = container;
 
     return () => {
       container.dispose();
     };
   }, [data]);
+
+  useLayoutEffect(() => {
+    chart.current.isActive = checkAbsolut;
+  }, [checkAbsolut]);
 
   return (
     <div

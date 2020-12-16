@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
 import { useFetch } from "../../services/graph.services";
@@ -10,6 +10,8 @@ import style from "./Graph.module.scss";
 interface Props {
     className: string;
     data: ICovidData;
+    checkAbsolut: boolean;
+    updateCheckAbsolut: (value: boolean) => void
 }
 
 const GraphContainer: React.FC<Props> = (props) => {
@@ -22,7 +24,7 @@ const GraphContainer: React.FC<Props> = (props) => {
         cases: "cases",
         color: '#d21a1a',
     });
-    let [checked, setCheked] = useState<boolean>(false);
+    const [checked, setCheked] = useState<boolean>(false);
     const chartContainer = useRef(null);
     const urlWord = `https://disease.sh/v3/covid-19/historical/all?lastdays=366`;
     const urlCountry = `https://disease.sh/v3/covid-19/historical/${country}?lastdays=366`;
@@ -33,6 +35,8 @@ const GraphContainer: React.FC<Props> = (props) => {
     }: { response: ICountryGraph; isLoading: boolean; error: Error } = useFetch(
         isword ? urlWord : urlCountry
     );
+    useEffect(() => setCheked(props.checkAbsolut), [props.checkAbsolut])
+    useEffect(() => props.updateCheckAbsolut(checked), [checked])
     const updateDaily = (value: boolean): void => setDaily(value);
     const updateObjectChart = (
         valueDaily: boolean,
