@@ -1,7 +1,6 @@
 import React from 'react';
 import style from "./Footer.module.css";
 import Octocat from '../../assets/image/Octocat.png'; 
-// import { ReactComponent as Logo } from '../../assets/image/rs_school_js.svg';
 import rsschooljs from '../../assets/image/rsschooljs.png'; 
 
 const Footer = (props:any) => {
@@ -34,7 +33,7 @@ const Footer = (props:any) => {
                 </a>
                 <p className={style.year}>2020</p>
                 <div className={style.rs_block}>
-                    <a href="https://rs.school/js/" className="rs-logo">
+                    <a href="https://rs.school/js/">
                        <img src={rsschooljs} />
                     </a>              
                 </div>
