@@ -16,3 +16,11 @@ export interface IWordGraph {
   deaths: { [name: string]: number };
   recovered: { [name: string]: number };
 }
+
+export interface IDataMenu {
+  word: string;
+  boolean: boolean;
+  name: string;
+  type: string;
+  color: string;
+}

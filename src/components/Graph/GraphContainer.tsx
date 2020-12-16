@@ -5,6 +5,7 @@ import { useFetch } from "../../services/graph.services";
 import Switch from "../Switch/Switch";
 import Graph from "./Graph";
 import MainListGraph from "./MenuListGraph";
+import style from "./Graph.module.scss";
 
 interface Props {
     className: string;
@@ -48,11 +49,15 @@ const GraphContainer: React.FC<Props> = (props) => {
     const switchData = { onSwitchChange: setCheked, switchChecked: checked };
     return (
         <div className={props.className}>
-            <Switch
-                name="switchGraph"
-                checked={switchData.switchChecked}
-                onChange={switchData.onSwitchChange}
-            />
+            <div className={style.switch}>
+                <span>Absolute</span>
+                <Switch
+                    name="switchGraph"
+                    checked={switchData.switchChecked}
+                    onChange={switchData.onSwitchChange}
+                />
+                <span>Per 100k</span>
+            </div>
             <Graph
                 data={props.data}
                 objChart={objChart}

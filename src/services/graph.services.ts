@@ -40,12 +40,13 @@ export function updateChart(
       chartData.labels.push(key);
       chartData.datasets[0].data.push(!checked ? value : value / 100000);
     } else {
+      const forDaily = (arr[i][1] - arr[i - 1][1]) < 0 ? 0 : (arr[i][1] - arr[i - 1][1]);
       chartData.labels.push(key);
       chartData.datasets[0].data.push(
         daily
           ? !checked
-            ? arr[i][1] - arr[i - 1][1]
-            : (arr[i][1] - arr[i - 1][1]) / 10000
+            ? forDaily
+            : forDaily / 10000
           : !checked
             ? value
             : value / 100000

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import style from "./Graph.module.css";
+import style from "./Graph.module.scss";
 import { Bar, Line } from "react-chartjs-2";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";

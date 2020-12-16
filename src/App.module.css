@@ -36,4 +36,6 @@
 
 .graph{
     grid-area: graph;
+    position: relative;
+    padding-top: 10px;
 }
