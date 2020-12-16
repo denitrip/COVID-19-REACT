@@ -2,6 +2,7 @@ export interface IOdjectChart {
   daily: boolean;
   type: string;
   cases: string;
+  color: string;
 }
 
 export interface ICountryGraph {

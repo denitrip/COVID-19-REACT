@@ -34,8 +34,8 @@ const Graph: React.FC<Props> = ({
         barThickness: 1,
         data: [],
         fill: false,
-        backgroundColor: " red",
-        borderColor: "red",
+        backgroundColor: "#d21a1a",
+        borderColor: "#d21a1a",
       },
     ],
   };
@@ -68,8 +68,8 @@ const Graph: React.FC<Props> = ({
                 return label >= 1000000
                   ? label / 1000000 + "M"
                   : label >= 1000
-                  ? label / 1000 + "K"
-                  : label;
+                    ? label / 1000 + "K"
+                    : label;
               }
             },
           },
@@ -87,7 +87,8 @@ const Graph: React.FC<Props> = ({
         chartContainer,
         objChart.daily,
         objChart.type,
-        checked
+        checked,
+        objChart.color
       );
     }
   }, [response, checked, objChart]);
@@ -108,13 +109,13 @@ const Graph: React.FC<Props> = ({
           redraw
         />
       ) : (
-        <Line
-          data={dataChart}
-          options={optionChart}
-          ref={chartContainer}
-          redraw
-        />
-      )}
+          <Line
+            data={dataChart}
+            options={optionChart}
+            ref={chartContainer}
+            redraw
+          />
+        )}
     </div>
   );
 };
