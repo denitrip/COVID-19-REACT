@@ -26,12 +26,12 @@ function App() {
 
   return (
     <div className={s.app}>
-      <Header className={s.header} />
-      <SearchContainer className={s.search} />
-      <MainListContainer className={s.mainList} />
-      <MapContainer data={data} />
-      <MainTableContainer className={s.mainTable} />
-      <GraphContainer data={data} className={s.graph} />
+      <Header className={s.header}/>
+      <SearchContainer className={s.search}/>
+      <MainListContainer className={s.mainList}/>
+      <MapContainer data={data} className={s.map}/>
+      <MainTableContainer className={s.mainTable}/>
+      <GraphContainer data={data} className={s.graph}/>
     </div>
   );
 }
