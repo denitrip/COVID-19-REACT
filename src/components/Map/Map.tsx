@@ -3,19 +3,20 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { ICovidData, IGlobal, ICommonData } from "../../model";
 
 am4core.useTheme(am4themes_animated);
 
-const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Function }) => {
+
+const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Function, className: string }) => {
   const { data, checkAbsolut, updateCheckAbsolut } = props;
   const [checked, setCheked] = useState<boolean>(false);
-
-  // console.log(data)
-
   const chart = useRef<any>(null);
+
   useEffect(() => { updateCheckAbsolut(checked) }, [checked])
 
   useLayoutEffect(() => {
+    let backgroundColor = am4core.color("#1e2128");
     let activeColor = am4core.color("#ff8726");
     let confirmedColor = am4core.color("#d21a1a");
     let recoveredColor = am4core.color("#45d21a");
@@ -23,9 +24,9 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
 
     // for an easier access by key
     let colors = {
-      TotalConfirmed: confirmedColor,
-      TotalRecovered: recoveredColor,
-      TotalDeaths: deathsColor,
+      confirmed: confirmedColor,
+      recovered: recoveredColor,
+      deaths: deathsColor,
     };
 
     let countryColor = am4core.color("#3b3b3b");
@@ -36,17 +37,19 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
-
+    container.background.fill = backgroundColor;
     container.tooltip = new am4core.Tooltip();
     container.tooltip.background.fill = am4core.color("#000000");
     container.tooltip.background.stroke = activeColor;
 
     let mapChart = container.createChild(am4maps.MapChart);
-    mapChart.height = am4core.percent(80);
+    mapChart.width = am4core.percent(100);
+    mapChart.height = am4core.percent(100);
+    mapChart.align = 'center';
     mapChart.zoomControl = new am4maps.ZoomControl();
     mapChart.zoomControl.align = "right";
-    mapChart.zoomControl.marginRight = 15;
-    mapChart.zoomControl.valign = "middle";
+    mapChart.zoomControl.x = 0;
+    mapChart.zoomControl.valign = "bottom";
     mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
 
     let mapData = data ? data.Countries : [];
@@ -78,6 +81,8 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
     polygonTemplate.stroke = countryStrokeColor;
     polygonTemplate.strokeOpacity = 0.15;
     polygonTemplate.setStateOnChildren = true;
+    polygonTemplate.hoverOnFocus = true;
+    polygonTemplate.tooltipPosition = 'fixed';
 
     let polygonHoverState = polygonTemplate.states.create("hover");
     polygonHoverState.transitionDuration = 1400;
@@ -95,11 +100,12 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
 
     let imageTemplate = imageSeries.mapImages.template;
     imageTemplate.nonScaling = true;
+    imageTemplate.tooltipText = "{Country}: [bold]{value}[/]";
 
     let circle = imageTemplate.createChild(am4core.Circle);
     circle.fillOpacity = 0.7;
-    circle.tooltipText = "{Country}: [bold]{value}[/]";
-    circle.fill = am4core.color("#ffd700");
+
+    circle.fill = confirmedColor;
 
     imageSeries.heatRules.push({
       target: circle,
@@ -129,60 +135,153 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
       return longitude;
     });
 
-    const totalData = data ? data.Global : [];
+    const totalData = data ? data.Global : {};
+
+    const confirmedButton = addButton('confirmed', confirmedColor, buttonsContainer, totalData);
+    const recoveredButton = addButton('recovered', recoveredColor, buttonsContainer, totalData);
+    const deathsButton = addButton('deaths', deathsColor, buttonsContainer, totalData);
+
+    const buttons = {
+      confirmed: confirmedButton,
+      recovered: recoveredButton,
+      deaths: deathsButton,
+    };
+
+    let activeButton = buttons.confirmed;
+
+    function capitalizeFirstLetter(string: string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     function changeDataType(name: string) {
-      imageSeries.dataFields.value = name;
+      activeButton = buttons[name];
+      activeButton.isActive = true;
+
+      Object.keys(buttons).forEach(key => {
+        if (buttons[key] !== activeButton) {
+          buttons[key].isActive = false
+        }
+      });
+
+      let showData = `${mapDaySwitch.isActive ? 'New' : 'Total'}${capitalizeFirstLetter(name)}`;
+      showData = `${showData}${mapDataSwitch.isActive ? 'Relative' : ''}`;
+
+      imageSeries.dataFields.value = showData;
+      imageSeries.heatRules.getIndex(0).max = mapDataSwitch.isActive ? 10 : 30;
       imageSeries.invalidateData();
 
       circle.fill = colors[name];
-    }
 
-    function addButton(name: string, color: any) {
-      let button: am4core.Button = buttonsContainer.createChild(am4core.Button);
+      imageSeries.tooltip.background.fill = colors[name];
+    };
+
+    Object.values(buttons).forEach(btn => {
+      btn.events.on('hit', (e) => {
+        changeDataType(e.target.dummyData)
+      })
+    })
+
+    function addButton(name: string, color: am4core.Color, container: am4core.Container, totalData: IGlobal | {}) {
+      let button: am4core.Button = container.createChild(am4core.Button);
       button.label.valign = "middle";
-      button.label.fill = am4core.color("#ffffff");
+      button.label.fill = am4core.color("#1e2128");
       button.label.fontSize = "11px";
       button.background.cornerRadius(30, 30, 30, 30);
       button.background.stroke = buttonStrokeColor;
       button.background.padding(2, 3, 2, 3);
       button.setStateOnChildren = true;
 
-      let circle2 = new am4core.Circle();
-      circle2.radius = 8;
-      circle2.fillOpacity = 0.3;
-      circle2.fill = color;
-      circle2.strokeOpacity = 0;
-      circle2.valign = "middle";
-      circle2.marginRight = 5;
-      button.icon = circle2;
+      let circle = new am4core.Circle();
+      circle.radius = 8;
+      circle.fillOpacity = 0.3;
+      circle.fill = color;
+      circle.strokeOpacity = 0;
+      circle.valign = "middle";
+      circle.marginRight = 5;
+      button.icon = circle;
 
       button.dummyData = name;
-      const dataOnButton = totalData[name];
+      const dataOnButton = totalData[`Total${capitalizeFirstLetter(name)}`];
 
-      button.label.text = `${name.slice(5)}: ${dataOnButton}`;
-
-      button.events.on("hit", (e) => {
-        changeDataType(e.target.dummyData);
-      });
+      button.label.text = `${capitalizeFirstLetter(name)}: ${dataOnButton}`;
 
       return button;
     }
-    addButton("TotalConfirmed", confirmedColor);
-    addButton("TotalRecovered", recoveredColor);
-    addButton("TotalDeaths", deathsColor);
 
-    let mapGlobeSwitch = mapChart.createChild(am4core.SwitchButton);
-    mapGlobeSwitch.align = "right";
-    mapGlobeSwitch.y = 15;
-    mapGlobeSwitch.leftLabel.text = "Absolute";
-    mapGlobeSwitch.leftLabel.fill = am4core.color("#ffffff");
-    mapGlobeSwitch.rightLabel.fill = am4core.color("#ffffff");
-    mapGlobeSwitch.rightLabel.text = "Per 100k";
-    mapGlobeSwitch.verticalCenter = "top";
-    mapGlobeSwitch.events.on("toggled", function () {
-      setCheked(mapGlobeSwitch.isActive)
+
+    let switcherContainer = container.createChild(am4core.Container);
+    switcherContainer.align = "right";
+
+    let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
+    mapDataSwitch.x = 150;
+    mapDataSwitch.leftLabel.text = "Absolute";
+    mapDataSwitch.leftLabel.fill = am4core.color("white");
+    mapDataSwitch.rightLabel.fill = am4core.color("white");
+    mapDataSwitch.rightLabel.text = "Per 100k";
+    mapDataSwitch.verticalCenter = "top";
+
+    let mapDaySwitch = switcherContainer.createChild(am4core.SwitchButton);
+    mapDaySwitch.leftLabel.text = "Total";
+    mapDaySwitch.leftLabel.fill = am4core.color("white");
+    mapDaySwitch.rightLabel.fill = am4core.color("white");
+    mapDaySwitch.rightLabel.text = "Last day";
+    mapDaySwitch.verticalCenter = "top";
+
+    mapDataSwitch.events.on('toggled', () => {
+      const name = activeButton.dummyData;
+      changeDataType(name);
     })
+
+    mapDaySwitch.events.on('toggled', () => {
+      const name = activeButton.dummyData;
+      changeDataType(name);
+    })
+
+    function resetHover() {
+      polygonSeries.mapPolygons.each(polygon => {
+        const polygonCopy = polygon;
+        polygonCopy.isHover = false;
+      })
+
+      imageSeries.mapImages.each(image => {
+        const img = image;
+        img.isHover = false;
+      })
+    }
+
+    function rollOverCountry(mapPolygon) {
+      resetHover();
+      const mapPolygonCopy = mapPolygon;
+      if (mapPolygonCopy) {
+        mapPolygonCopy.isHover = true;
+      }
+      const mapPolygonDataContext = mapPolygonCopy.dataItem.dataContext as ICommonData;
+      const image = imageSeries.getImageById(mapPolygonDataContext.id)
+      if (image) {
+        (image.dataItem.dataContext as ICommonData).name = mapPolygonDataContext.name;
+        image.isHover = true;
+      }
+    }
+
+    function handleCountryHover(e) {
+      rollOverCountry(e.target)
+    }
+
+    function handleImageHover(e) {
+      rollOverCountry(polygonSeries.getPolygonById(e.target.dataItem.dataContext.id))
+    }
+
+    polygonTemplate.events.on('over', handleCountryHover);
+    polygonTemplate.events.on('out', resetHover);
+
+    polygonTemplate.events.on('over', handleImageHover);
+    polygonTemplate.events.on('out', resetHover);
+
+    polygonTemplate.events.on("hit", function (ev) {
+      ev.target.series.chart.zoomToMapObject(ev.target)
+    });
+
+
     chart.current = container;
 
     return () => {
@@ -196,7 +295,7 @@ const Map = (props: { data: any, checkAbsolut: boolean, updateCheckAbsolut: Func
 
   return (
     <div
-      // className={props.className}
+      className={props.className}
       id="chartdiv"
       style={{ width: "100%", height: "100%" }}
     ></div>

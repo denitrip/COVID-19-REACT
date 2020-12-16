@@ -1,3 +1,5 @@
+import { IPopulationAndFlags } from './population-flags.model';
+
 export interface ICovidData {
   Date: string;
   Countries: ICountry[]; //Array<ICountry>
@@ -23,4 +25,15 @@ export interface IGlobal {
   TotalDeaths: number;
   NewRecovered: number;
   TotalRecovered: number;
+}
+
+export interface ICommonData extends ICountry, IPopulationAndFlags {
+  NewConfirmedRelative: string;
+  NewDeathsRelative: string;
+  NewRecoveredRelative: string;
+  TotalConfirmedRelative: string;
+  TotalDeathsRelative: string;
+  TotalRecoveredRelative: string;
+  id: string;
+  name: string;
 }
