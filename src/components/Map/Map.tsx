@@ -3,14 +3,15 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { ICovidData, IGlobal, ICommonData } from "../../model";
 
 am4core.useTheme(am4themes_animated);
 
-const Map = (props: { data: any, className: string }) => {
+const Map = (props: { data: ICovidData, className: string }) => {
   
   const data = props.data;
 
-  const chart = useRef<any>(null);
+  const chart = useRef(null);
 
   useLayoutEffect(() => {
     let backgroundColor = am4core.color("#1e2128");
@@ -146,7 +147,7 @@ const Map = (props: { data: any, className: string }) => {
 
     let activeButton = buttons.confirmed;
 
-    function capitalizeFirstLetter(string) {
+    function capitalizeFirstLetter(string: string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     } 
 
@@ -178,10 +179,10 @@ const Map = (props: { data: any, className: string }) => {
       })
     })
 
-    function addButton(name: string, color: any, container: any, totalData: any) {
+    function addButton(name: string, color: am4core.Color, container: am4core.Container, totalData: IGlobal|{}) {
       let button: am4core.Button = container.createChild(am4core.Button);
       button.label.valign = "middle";
-      button.label.fill = am4core.color("#ffffff");
+      button.label.fill = am4core.color("#1e2128");
       button.label.fontSize = "11px";
       button.background.cornerRadius(30, 30, 30, 30);
       button.background.stroke = buttonStrokeColor;
@@ -200,7 +201,7 @@ const Map = (props: { data: any, className: string }) => {
       button.dummyData = name;
       const dataOnButton = totalData[`Total${capitalizeFirstLetter(name)}`];
 
-      button.label.text = `${name}: ${dataOnButton}`;
+      button.label.text = `${capitalizeFirstLetter(name)}: ${dataOnButton}`;
 
       return button;
     }
@@ -233,11 +234,6 @@ const Map = (props: { data: any, className: string }) => {
       changeDataType(name);
     })
 
-    function selectCountry(id) {
-      const currentCountry = polygonSeries.getPolygonById(id);
-      mapChart.zoomToMapObject(currentCountry)
-    };
-
     function resetHover() {
       polygonSeries.mapPolygons.each(polygon => {
         const polygonCopy = polygon;
@@ -256,9 +252,10 @@ const Map = (props: { data: any, className: string }) => {
       if(mapPolygonCopy) {
         mapPolygonCopy.isHover = true;
       }
-      const image: any = imageSeries.getImageById(mapPolygonCopy.dataItem.dataContext.id)
+      const mapPolygonDataContext = mapPolygonCopy.dataItem.dataContext as ICommonData;
+      const image = imageSeries.getImageById(mapPolygonDataContext.id)
       if(image) {
-        image.dataItem.dataContext.name = mapPolygonCopy.dataItem.dataContext.name;
+        (image.dataItem.dataContext as ICommonData).name = mapPolygonDataContext.name;
         image.isHover = true;
       }
     }
