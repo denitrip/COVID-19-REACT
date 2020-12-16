@@ -1,0 +1,37 @@
+.footer_block {
+    background: #1e2128;
+}
+.footer_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 30px;
+}
+.author_info {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.author_name {
+    margin-left: 5px;
+}
+.year {
+    color: white;
+    font-size: 14px;
+}
+.github_img {
+    width: 50px;
+    height: 50px;
+}
+.github_img img {
+    width: 100%;
+}
+.rs_block {
+    background: white;
+    width: 100px;
+}
+.rs_block img {
+    width: 100%;
+}
