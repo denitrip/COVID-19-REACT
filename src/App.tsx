@@ -35,7 +35,7 @@ function App() {
       <Header className={s.header} />
       <SearchContainer className={s.search} />
       <MainListContainer className={s.mainList} />
-      <MapContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} />
+      <MapContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} className={s.map}/>
       <MainTableContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} className={s.mainTable} />
       <GraphContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} className={s.graph} />
       <Footer className={s.footer} />

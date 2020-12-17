@@ -1,9 +1,13 @@
-$color-background: lightcyan;
-$color-bad: red;
-$color-good: darkgreen;
+$color-background: #1e2128;
+$color-dead: red;
+$color-recovered: darkgreen;
+$color-sick:#a7a0a0;
+$font-color:white;
+
 
 .wrapper{
-    background-color: $color-background
+    background-color: $color-background;
+    color:$font-color
 }
 .countryName{
     font-size: 1.7rem;
@@ -14,6 +18,7 @@ $color-good: darkgreen;
 .table_label{
     font-size: 1.6rem;
     text-align: center;
+
 }
 
 .table_data{
@@ -27,10 +32,13 @@ $color-good: darkgreen;
     grid-template-columns: repeat(2,1fr);
 }
 .table_element:nth-child(3) .table_data, .table_element:nth-child(4) .table_data{
-    color: $color-bad;
+    color: $color-dead;
 }
 .table_element:nth-child(5) .table_data, .table_element:nth-child(6) .table_data{
-    color:$color-good;
+    color:$color-recovered;
+}
+.table_element:nth-child(1) .table_data, .table_element:nth-child(2) .table_data{
+    color:$color-sick;
 }
 
 .switchSection{

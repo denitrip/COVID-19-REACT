@@ -1,18 +1,31 @@
+
 import React, { useEffect, useState } from "react";
 import MainTable from "./MainTable";
 import { IdataField } from '../../model/main-table.model'
 
 const MainTableContainer = (props: any) => {
     let [checked, setCheked] = useState<boolean>(false);
-    let data: Array<IdataField> = [
-        { title: 'NewConfirmed', count: 5415 },
-        { title: 'TotalConfirmed', count: 265003 },
-        { title: 'NewDeaths', count: 171 },
-        { title: 'TotalDeaths', count: 6451 },
-        { title: 'NewRecovered', count: 1092 },
-        { title: 'TotalRecovered', count: 77362 },
+    let fieldsForData = [
+        'NewConfirmed','NewDeaths','NewRecovered','TotalConfirmed','TotalDeaths','TotalRecovered'
     ]
-    const country = 'Hungary';
+    let fakeData = {
+        Country: "Russian Federation",
+        CountryCode: "RU",
+        Date: "2020-12-14T14:37:49Z",
+        NewConfirmed: 27651,
+        NewDeaths: 481,
+        NewRecovered: 20177,
+        Premium: {},
+        Slug: "russia",
+        TotalConfirmed: 2629699,
+        TotalDeaths: 46404,
+        TotalRecovered: 2086887,
+    }
+    let data = Object.entries(fakeData).map(([key,value]) => { return {title:key.toString(), count:+value}
+    }).filter(el => {return fieldsForData.includes(el.title)})
+    
+    const country = fakeData.Country;
+    const sortedData:Array<IdataField> = [data[3],data[0],data[4],data[1],data[5],data[2]];
     const switchData = { onSwitchChange: setCheked, switchChecked: checked }
     useEffect(() => props.updateCheckAbsolut(checked), [checked])
     useEffect(() => setCheked(props.checkAbsolut), [props.checkAbsolut])
@@ -22,7 +35,8 @@ const MainTableContainer = (props: any) => {
         }
     }
     return (
-        <MainTable payload={{ data, country }} className={props.className} switchData={switchData} />
+        <MainTable payload={{ sortedData, country }} className={props.className} switchData={switchData} />
+
     )
 }
 

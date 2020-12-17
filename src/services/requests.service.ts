@@ -10,3 +10,4 @@ export const fetchCovidData = (): Promise<ICovidData> => {
 export const fetchPopulationAndFlags = (): Promise<IPopulationAndFlags[]> => {
   return fetch(POPULATION_AND_FLAGS_API_URL).then((res) => res.json());
 };
+
