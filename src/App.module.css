@@ -1,15 +1,15 @@
 :root{
   --grid-areas:
-  "header header header"
-  "search search search"
+  "header header search"
   "mainList map mainTable"
   "mainList map graph"
+  "footer footer footer"
 }
 
 .app {
   display: grid;
   grid-template-areas: var(--grid-areas);
-  grid-template-rows: 2fr 2fr 20fr 8fr;
+  grid-template-rows: 2fr 20fr 8fr 2fr;
   grid-template-columns: 2fr 6fr 3fr;
   height: 100%;
 }
@@ -39,4 +39,9 @@
     position: relative;
     padding-top: 10px;
     background-color: #1e2128;
+}
+
+.footer {
+  grid-area: footer;
+
 }

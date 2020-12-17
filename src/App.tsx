@@ -6,6 +6,7 @@ import MainListContainer from "./components/MainList/MainListContainer";
 import MapContainer from "./components/Map/MapContainer";
 import MainTableContainer from "./components/MainTable/MainTableContainer";
 import GraphContainer from "./components/Graph/GraphContainer";
+import Footer from './components/Footer/Footer';
 import { commonData } from "./utils";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
       <MapContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} />
       <MainTableContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} className={s.mainTable} />
       <GraphContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} className={s.graph} />
+      <Footer className={s.footer} />
     </div>
   );
 }
