@@ -50,6 +50,7 @@ function App() {
         updateCheckAbsolut={updateCheckAbsolut}
         checkAbsolut={checkAbsolut}
         data={data}
+        className={s.map}
       />
       <MainTableContainer
         updateCheckAbsolut={updateCheckAbsolut}
