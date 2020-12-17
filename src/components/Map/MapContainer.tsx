@@ -5,6 +5,7 @@ const MapContainer = (props: any) => {
   return (
     <Map
       getCountry={props.getCountry}
+      countryObj={props.countryObj}
       updateCheckAbsolut={props.updateCheckAbsolut}
       checkAbsolut={props.checkAbsolut}
       data={props.data}

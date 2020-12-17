@@ -13,8 +13,15 @@ const Map = (props: {
   updateCheckAbsolut: Function;
   className: string;
   getCountry: Function;
+  countryObj: { country: string; populution: number };
 }) => {
-  const { data, checkAbsolut, updateCheckAbsolut, getCountry } = props;
+  const {
+    data,
+    checkAbsolut,
+    updateCheckAbsolut,
+    getCountry,
+    countryObj,
+  } = props;
   const [checked, setChecked] = useState<boolean>(false);
   const chart = useRef<any>(null);
 
@@ -312,7 +319,10 @@ const Map = (props: {
 
     polygonTemplate.events.on("hit", function (ev) {
       ev.target.series.chart.zoomToMapObject(ev.target);
-      console.log(ev.target.dataItem);
+      const country = data.Countries.find(
+        (e) => e.name === (ev.target.dataItem.dataContext as ICommonData).name
+      );
+      getCountry(country.id, country.population);
     });
 
     chart.current = container;

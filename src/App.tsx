@@ -47,12 +47,15 @@ function App() {
       />
       <MapContainer
         getCountry={getCountry}
+        countryObj={countryObj}
         updateCheckAbsolut={updateCheckAbsolut}
         checkAbsolut={checkAbsolut}
         data={data}
         className={s.map}
       />
       <MainTableContainer
+        data={data}
+        countryObj={countryObj}
         updateCheckAbsolut={updateCheckAbsolut}
         checkAbsolut={checkAbsolut}
         className={s.mainTable}
