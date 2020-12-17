@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import MainTable from "./MainTable";
+<<<<<<< HEAD
 import { IdataField } from '../../model/main-table.model'
+=======
+import {IdataField} from '../../model/main-table.model'
+>>>>>>> c9f37e2... fix: remove comments
 
 const MainTableContainer = (props: any) => {
     let [checked, setCheked] = useState<boolean>(false);
