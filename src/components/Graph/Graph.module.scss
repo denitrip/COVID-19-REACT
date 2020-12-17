@@ -1,6 +1,6 @@
 $background-colour: #1e2128;
 $background-hover-colour: #1b1b1b;
-$border-color:#3b3b3b;
+$border-color: #3b3b3b;
 $white: #fff;
 
 .container {
@@ -10,18 +10,11 @@ $white: #fff;
   justify-content: center;
   align-items: center;
 }
-.spiner {
-  width: 50px;
-  height: 50px;
-  background-image: url(../../assets/image/Spinner.svg);
-  background-repeat: no-repeat;
-  background-size: 50px;
-}
+
 .graph {
   background-color: $background-colour;
-
 }
-.switch{
+.switch {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -30,19 +23,19 @@ $white: #fff;
   left: 50%;
   transform: translateX(-50%);
   color: $white;
- }
-.menu{
+}
+.menu {
   position: relative;
-  .containerButtons{
+  .containerButtons {
     position: absolute;
     width: 160px;
-    bottom:  20px;
+    bottom: 20px;
     left: 50%;
     border: 1px solid $border-color;
     transform: translateX(-50%);
     display: none;
     flex-direction: column;
-    button{
+    button {
       width: 100%;
       background-color: $background-colour;
       color: $white;
@@ -51,21 +44,20 @@ $white: #fff;
       padding: 5px;
       outline: none;
       transition: 0.3s;
-      &:hover{
+      &:hover {
         background-color: $background-hover-colour;
         cursor: pointer;
       }
-      &:last-child{
+      &:last-child {
         border-bottom: none;
       }
     }
-  
   }
-  .containerActiveMenu{
+  .containerActiveMenu {
     display: flex;
     justify-content: space-between;
     .prev,
-    .next{
+    .next {
       width: 10%;
       height: 19px;
       background-color: $background-colour;
@@ -73,19 +65,19 @@ $white: #fff;
       background-repeat: no-repeat;
       background-position: center;
       transition: 0.3s;
-      &:hover{
+      &:hover {
         background-color: $background-hover-colour;
         cursor: pointer;
         transition: 0.3s;
       }
     }
-    .prev{
+    .prev {
       background-image: url(../../assets/image/prev.png);
     }
-    .next{
+    .next {
       background-image: url(../../assets/image/next.png);
     }
-    .activeList{
+    .activeList {
       width: 80%;
       text-align: center;
       font-size: 14px;
@@ -93,15 +85,13 @@ $white: #fff;
       color: $white;
       transition: 0.3s;
       cursor: pointer;
-      &:hover{
+      &:hover {
         background-color: $background-hover-colour;
         transition: 0.3s;
       }
     }
-    
   }
-  .active{
+  .active {
     display: flex;
   }
 }
-

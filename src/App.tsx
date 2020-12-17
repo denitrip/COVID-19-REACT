@@ -6,13 +6,15 @@ import MainListContainer from "./components/MainList/MainListContainer";
 import MapContainer from "./components/Map/MapContainer";
 import MainTableContainer from "./components/MainTable/MainTableContainer";
 import GraphContainer from "./components/Graph/GraphContainer";
-import Footer from './components/Footer/Footer';
+import Footer from "./components/Footer/Footer";
 import { commonData } from "./utils";
+import { ICovidData } from "./model";
 
 function App() {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<ICovidData>();
   const [error, setError] = useState();
   const [checkAbsolut, setCheckAbsolut] = useState<boolean>(false);
+  const [countryObj, setCountryOdj] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,17 +29,40 @@ function App() {
   }, []);
 
   const updateCheckAbsolut = (value: boolean) => {
-    setCheckAbsolut(value)
-  }
+    setCheckAbsolut(value);
+  };
+
+  const getCountry = (country: string, population: number) => {
+    setCountryOdj({ country, population });
+  };
 
   return (
     <div className={s.app}>
       <Header className={s.header} />
       <SearchContainer className={s.search} />
-      <MainListContainer className={s.mainList} />
-      <MapContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} />
-      <MainTableContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} className={s.mainTable} />
-      <GraphContainer updateCheckAbsolut={updateCheckAbsolut} checkAbsolut={checkAbsolut} data={data} className={s.graph} />
+      <MainListContainer
+        getCountry={getCountry}
+        className={s.mainList}
+        data={data}
+      />
+      <MapContainer
+        getCountry={getCountry}
+        updateCheckAbsolut={updateCheckAbsolut}
+        checkAbsolut={checkAbsolut}
+        data={data}
+      />
+      <MainTableContainer
+        updateCheckAbsolut={updateCheckAbsolut}
+        checkAbsolut={checkAbsolut}
+        className={s.mainTable}
+      />
+      <GraphContainer
+        countryObj={countryObj}
+        updateCheckAbsolut={updateCheckAbsolut}
+        checkAbsolut={checkAbsolut}
+        data={data}
+        className={s.graph}
+      />
       <Footer className={s.footer} />
     </div>
   );

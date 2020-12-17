@@ -29,6 +29,7 @@ export function updateChart(
   type: string,
   checked: boolean,
   color: string,
+  population: number
 ) {
   const chartData = chart.current.chartInstance.data;
   const chartOptions = chart.current.chartInstance.options;
@@ -38,18 +39,21 @@ export function updateChart(
   Object.entries(obj).forEach(([key, value], i, arr: any) => {
     if (i === 0) {
       chartData.labels.push(key);
-      chartData.datasets[0].data.push(!checked ? value : value / 100000);
+      chartData.datasets[0].data.push(
+        !checked ? value : ((value / population) * 100000).toFixed(3)
+      );
     } else {
-      const forDaily = (arr[i][1] - arr[i - 1][1]) < 0 ? 0 : (arr[i][1] - arr[i - 1][1]);
+      const forDaily =
+        arr[i][1] - arr[i - 1][1] < 0 ? 0 : arr[i][1] - arr[i - 1][1];
       chartData.labels.push(key);
       chartData.datasets[0].data.push(
         daily
           ? !checked
             ? forDaily
-            : forDaily / 10000
+            : ((forDaily / population) * 10000).toFixed(3)
           : !checked
-            ? value
-            : value / 100000
+          ? value
+          : ((value / population) * 100000).toFixed(3)
       );
     }
   });

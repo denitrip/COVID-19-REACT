@@ -1,10 +1,16 @@
-import React from 'react'
-import Map from './Map'
+import React from "react";
+import Map from "./Map";
 
 const MapContainer = (props: any) => {
-    return (
-        <Map updateCheckAbsolut={props.updateCheckAbsolut} checkAbsolut={props.checkAbsolut} data={props.data} className={props.className} />
-    )
-}
+  return (
+    <Map
+      getCountry={props.getCountry}
+      updateCheckAbsolut={props.updateCheckAbsolut}
+      checkAbsolut={props.checkAbsolut}
+      data={props.data}
+      className={props.className}
+    />
+  );
+};
 
-export default MapContainer
+export default MapContainer;

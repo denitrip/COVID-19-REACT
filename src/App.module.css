@@ -32,6 +32,7 @@
 
 .mainList {
   grid-area: mainList;
+  background-color: #1e2128;
 }
 
 .graph{

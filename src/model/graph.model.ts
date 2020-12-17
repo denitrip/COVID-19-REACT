@@ -3,6 +3,8 @@ export interface IOdjectChart {
   type: string;
   cases: string;
   color: string;
+  country?: string;
+  name?: string;
 }
 
 export interface ICountryGraph {
