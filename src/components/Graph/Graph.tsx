@@ -47,9 +47,12 @@ const Graph: React.FC<Props> = ({
     scales: {
       xAxes: [
         {
+
+          color: 'white',
           type: "time",
           position: "bottom",
           time: {
+
             units: "month",
             displayFormats: {
               month: "MMM",
@@ -59,6 +62,7 @@ const Graph: React.FC<Props> = ({
       ],
       yAxes: [
         {
+          color: 'white',
           type: "linear",
           ticks: {
             beginAtZero: true,

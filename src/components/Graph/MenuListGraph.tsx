@@ -13,7 +13,7 @@ interface Props {
 }
 const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
   const [activeMenu, setActiveMenu] = useState<string>("Daily Cases");
-  const [active, setActive] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<boolean>(false);
   const containerButtons = useRef<HTMLDivElement>(null)
   const containerActiveList = useRef<HTMLDivElement>(null)
   const dataMenu = [
@@ -45,14 +45,14 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
   useEffect(
     () => {
       const onClickOutside = () => {
-        if (active) {
+        if (isActive) {
           containerButtons.current.classList.remove(style.active)
-          setActive(!active)
+          setIsActive(!isActive)
         }
       }
       document.addEventListener("click", onClickOutside);
       return () => document.removeEventListener("click", onClickOutside);
-    }, [active])
+    }, [isActive])
 
   const update = (word: string, boolean: boolean, type: string, color: string, name: string) => {
     setActiveMenu(name)
@@ -66,16 +66,16 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
   };
   const toggleMenu = () => {
     containerButtons.current.classList.toggle(style.active)
-    setActive(!active)
+    setIsActive(!isActive)
   }
   const showNextGraph = () => {
-    const index = dataMenu.findIndex((e: IDataMenu) => e.name === containerActiveList.current.textContent)
+    const index = dataMenu.findIndex((e: IDataMenu) => e.name === activeMenu)
     const i = index === dataMenu.length - 1 ? 0 : index + 1
     update(dataMenu[i].word, dataMenu[i].boolean, dataMenu[i].type, dataMenu[i].color, dataMenu[i].name)
   }
   const showPrevGraph = () => {
-    const index = dataMenu.findIndex((e: IDataMenu) => e.name === containerActiveList.current.textContent)
-    const i = index === 0 ? dataMenu.length - 1 : index - 1
+    const index = dataMenu.findIndex((e: IDataMenu) => e.name === activeMenu)
+    const i = !index ? dataMenu.length - 1 : index - 1
     update(dataMenu[i].word, dataMenu[i].boolean, dataMenu[i].type, dataMenu[i].color, dataMenu[i].name)
   }
   return (

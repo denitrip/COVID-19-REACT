@@ -1,5 +1,6 @@
-$background-colour: #3b3b3b;
+$background-colour: #1e2128;
 $background-hover-colour: #1b1b1b;
+$border-color:#3b3b3b;
 $white: #fff;
 
 .container {
@@ -17,7 +18,7 @@ $white: #fff;
   background-size: 50px;
 }
 .graph {
-
+  background-color: $background-colour;
 
 }
 .switch{
@@ -28,6 +29,7 @@ $white: #fff;
   top: -8px;
   left: 50%;
   transform: translateX(-50%);
+  color: $white;
  }
 .menu{
   position: relative;
@@ -36,6 +38,7 @@ $white: #fff;
     width: 160px;
     bottom:  20px;
     left: 50%;
+    border: 1px solid $border-color;
     transform: translateX(-50%);
     display: none;
     flex-direction: column;
@@ -43,7 +46,8 @@ $white: #fff;
       width: 100%;
       background-color: $background-colour;
       color: $white;
-      border: 1px solid $white;
+      border: none;
+      border-bottom: 1px solid $border-color;
       padding: 5px;
       outline: none;
       transition: 0.3s;
@@ -51,7 +55,11 @@ $white: #fff;
         background-color: $background-hover-colour;
         cursor: pointer;
       }
+      &:last-child{
+        border-bottom: none;
+      }
     }
+  
   }
   .containerActiveMenu{
     display: flex;
