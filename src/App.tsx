@@ -6,6 +6,7 @@ import MainListContainer from "./components/MainList/MainListContainer";
 import MapContainer from "./components/Map/MapContainer";
 import MainTableContainer from "./components/MainTable/MainTableContainer";
 import GraphContainer from "./components/Graph/GraphContainer";
+import Footer from './components/Footer/Footer';
 import { commonData } from "./utils";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       <MapContainer data={data} className={s.map}/>
       <MainTableContainer className={s.mainTable}/>
       <GraphContainer data={data} className={s.graph}/>
+      <Footer className={s.footer} />
     </div>
   );
 }
