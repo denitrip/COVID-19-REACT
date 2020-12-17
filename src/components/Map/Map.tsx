@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
@@ -7,11 +7,13 @@ import { ICovidData, IGlobal, ICommonData } from "../../model";
 
 am4core.useTheme(am4themes_animated);
 
-const Map = (props: { data: ICovidData, className: string }) => {
-  
-  const data = props.data;
 
-  const chart = useRef(null);
+const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolut: Function, className: string }) => {
+  const { data, checkAbsolut, updateCheckAbsolut } = props;
+  const [checked, setChecked] = useState<boolean>(false);
+  const chart = useRef<any>(null);
+
+  useEffect(() => { updateCheckAbsolut(checked) }, [checked])
 
   useLayoutEffect(() => {
     let backgroundColor = am4core.color("#1e2128");
@@ -102,7 +104,7 @@ const Map = (props: { data: ICovidData, className: string }) => {
 
     let circle = imageTemplate.createChild(am4core.Circle);
     circle.fillOpacity = 0.7;
-    
+
     circle.fill = confirmedColor;
 
     imageSeries.heatRules.push({
@@ -131,9 +133,9 @@ const Map = (props: { data: ICovidData, className: string }) => {
         return polygon.visualLongitude;
       }
       return longitude;
-    });   
+    });
 
-    const totalData = data ? data.Global : {}; 
+    const totalData = data ? data.Global : {};
 
     const confirmedButton = addButton('confirmed', confirmedColor, buttonsContainer, totalData);
     const recoveredButton = addButton('recovered', recoveredColor, buttonsContainer, totalData);
@@ -149,14 +151,14 @@ const Map = (props: { data: ICovidData, className: string }) => {
 
     function capitalizeFirstLetter(string: string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
-    } 
+    }
 
     function changeDataType(name: string) {
       activeButton = buttons[name];
       activeButton.isActive = true;
 
       Object.keys(buttons).forEach(key => {
-        if(buttons[key] !== activeButton) {
+        if (buttons[key] !== activeButton) {
           buttons[key].isActive = false
         }
       });
@@ -165,8 +167,8 @@ const Map = (props: { data: ICovidData, className: string }) => {
       showData = `${showData}${mapDataSwitch.isActive ? 'Relative' : ''}`;
 
       imageSeries.dataFields.value = showData;
-      imageSeries.heatRules.getIndex(0).max = mapDataSwitch.isActive ? 10 : 30;     
-      imageSeries.invalidateData();     
+      imageSeries.heatRules.getIndex(0).max = mapDataSwitch.isActive ? 10 : 30;
+      imageSeries.invalidateData();
 
       circle.fill = colors[name];
 
@@ -179,7 +181,7 @@ const Map = (props: { data: ICovidData, className: string }) => {
       })
     })
 
-    function addButton(name: string, color: am4core.Color, container: am4core.Container, totalData: IGlobal|{}) {
+    function addButton(name: string, color: am4core.Color, container: am4core.Container, totalData: IGlobal | {}) {
       let button: am4core.Button = container.createChild(am4core.Button);
       button.label.valign = "middle";
       button.label.fill = am4core.color("#1e2128");
@@ -206,6 +208,7 @@ const Map = (props: { data: ICovidData, className: string }) => {
       return button;
     }
 
+
     let switcherContainer = container.createChild(am4core.Container);
     switcherContainer.align = "right";
 
@@ -217,7 +220,7 @@ const Map = (props: { data: ICovidData, className: string }) => {
     mapDataSwitch.rightLabel.text = "Per 100k";
     mapDataSwitch.verticalCenter = "top";
 
-    let mapDaySwitch = switcherContainer.createChild(am4core.SwitchButton);   
+    let mapDaySwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDaySwitch.leftLabel.text = "Total";
     mapDaySwitch.leftLabel.fill = am4core.color("white");
     mapDaySwitch.rightLabel.fill = am4core.color("white");
@@ -227,6 +230,7 @@ const Map = (props: { data: ICovidData, className: string }) => {
     mapDataSwitch.events.on('toggled', () => {
       const name = activeButton.dummyData;
       changeDataType(name);
+      setChecked(mapDataSwitch.isActive)
     })
 
     mapDaySwitch.events.on('toggled', () => {
@@ -249,12 +253,12 @@ const Map = (props: { data: ICovidData, className: string }) => {
     function rollOverCountry(mapPolygon) {
       resetHover();
       const mapPolygonCopy = mapPolygon;
-      if(mapPolygonCopy) {
+      if (mapPolygonCopy) {
         mapPolygonCopy.isHover = true;
       }
       const mapPolygonDataContext = mapPolygonCopy.dataItem.dataContext as ICommonData;
       const image = imageSeries.getImageById(mapPolygonDataContext.id)
-      if(image) {
+      if (image) {
         (image.dataItem.dataContext as ICommonData).name = mapPolygonDataContext.name;
         image.isHover = true;
       }
@@ -274,9 +278,10 @@ const Map = (props: { data: ICovidData, className: string }) => {
     polygonTemplate.events.on('over', handleImageHover);
     polygonTemplate.events.on('out', resetHover);
 
-    polygonTemplate.events.on("hit", function(ev) {
+    polygonTemplate.events.on("hit", function (ev) {
       ev.target.series.chart.zoomToMapObject(ev.target)
     });
+
 
     chart.current = container;
 
@@ -284,6 +289,10 @@ const Map = (props: { data: ICovidData, className: string }) => {
       container.dispose();
     };
   }, [data]);
+
+  useLayoutEffect(() => {
+    chart.current.isActive = checkAbsolut;
+  }, [checkAbsolut]);
 
   return (
     <div

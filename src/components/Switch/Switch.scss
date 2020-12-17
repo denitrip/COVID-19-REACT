@@ -6,12 +6,14 @@ $white: #fff;
 .toggle-switch {
     position: relative;
     width: 75px;
+    transform: scale(0.5);  
     display: inline-block;
     vertical-align: middle;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     text-align: left;
+
     &-checkbox {
       display: none;
     }
@@ -91,7 +93,7 @@ $white: #fff;
   
 @media screen and (max-width: 991px) {
     .toggle-switch {
-        transform: scale(0.9);      
+        transform: scale(0.5);      
    }
    .toggle-switch-switch{
         right: 34px;
@@ -105,7 +107,7 @@ $white: #fff;
 }
 @media screen and (max-width: 767px) {
     .toggle-switch {
-        transform: scale(0.825);
+        transform: scale(0.5);
    }
    .toggle-switch-switch{
         right: 27px;
@@ -113,7 +115,7 @@ $white: #fff;
 }
 @media screen and (max-width: 575px) {
     .toggle-switch {
-        transform: scale(0.75);
+        transform: scale(0.5);
    }
    .toggle-switch-switch{
         right: 25px;

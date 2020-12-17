@@ -27,7 +27,8 @@ export function updateChart(
   chart: any,
   daily: boolean,
   type: string,
-  checked: boolean
+  checked: boolean,
+  color: string,
 ) {
   const chartData = chart.current.chartInstance.data;
   const chartOptions = chart.current.chartInstance.options;
@@ -39,18 +40,21 @@ export function updateChart(
       chartData.labels.push(key);
       chartData.datasets[0].data.push(!checked ? value : value / 100000);
     } else {
+      const forDaily = (arr[i][1] - arr[i - 1][1]) < 0 ? 0 : (arr[i][1] - arr[i - 1][1]);
       chartData.labels.push(key);
       chartData.datasets[0].data.push(
         daily
           ? !checked
-            ? arr[i][1] - arr[i - 1][1]
-            : (arr[i][1] - arr[i - 1][1]) / 10000
+            ? forDaily
+            : forDaily / 10000
           : !checked
-          ? value
-          : value / 100000
+            ? value
+            : value / 100000
       );
     }
   });
+  chartData.datasets[0].backgroundColor = color;
+  chartData.datasets[0].borderColor = color;
   chartOptions.scales.yAxes[0].type = type;
   chart.current.chartInstance.update();
 }

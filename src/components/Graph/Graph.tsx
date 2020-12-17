@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import style from "./Graph.module.css";
+import style from "./Graph.module.scss";
 import { Bar, Line } from "react-chartjs-2";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
@@ -34,8 +34,8 @@ const Graph: React.FC<Props> = ({
         barThickness: 1,
         data: [],
         fill: false,
-        backgroundColor: " red",
-        borderColor: "red",
+        backgroundColor: "#d21a1a",
+        borderColor: "#d21a1a",
       },
     ],
   };
@@ -47,9 +47,12 @@ const Graph: React.FC<Props> = ({
     scales: {
       xAxes: [
         {
+
+          color: 'white',
           type: "time",
           position: "bottom",
           time: {
+
             units: "month",
             displayFormats: {
               month: "MMM",
@@ -59,6 +62,7 @@ const Graph: React.FC<Props> = ({
       ],
       yAxes: [
         {
+          color: 'white',
           type: "linear",
           ticks: {
             beginAtZero: true,
@@ -68,8 +72,8 @@ const Graph: React.FC<Props> = ({
                 return label >= 1000000
                   ? label / 1000000 + "M"
                   : label >= 1000
-                  ? label / 1000 + "K"
-                  : label;
+                    ? label / 1000 + "K"
+                    : label;
               }
             },
           },
@@ -87,7 +91,8 @@ const Graph: React.FC<Props> = ({
         chartContainer,
         objChart.daily,
         objChart.type,
-        checked
+        checked,
+        objChart.color
       );
     }
   }, [response, checked, objChart]);
@@ -108,13 +113,13 @@ const Graph: React.FC<Props> = ({
           redraw
         />
       ) : (
-        <Line
-          data={dataChart}
-          options={optionChart}
-          ref={chartContainer}
-          redraw
-        />
-      )}
+          <Line
+            data={dataChart}
+            options={optionChart}
+            ref={chartContainer}
+            redraw
+          />
+        )}
     </div>
   );
 };

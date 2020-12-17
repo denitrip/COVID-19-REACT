@@ -2,6 +2,7 @@ export interface IOdjectChart {
   daily: boolean;
   type: string;
   cases: string;
+  color: string;
 }
 
 export interface ICountryGraph {
@@ -14,4 +15,12 @@ export interface IWordGraph {
   cases: { [name: string]: number };
   deaths: { [name: string]: number };
   recovered: { [name: string]: number };
+}
+
+export interface IDataMenu {
+  word: string;
+  boolean: boolean;
+  name: string;
+  type: string;
+  color: string;
 }
