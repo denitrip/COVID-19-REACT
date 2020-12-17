@@ -4,7 +4,7 @@ import s from "./MainTable.module.scss";
 import { IdataField, IMainTableProps } from "../../model/main-table.model";
 
 const MainTable = (props: IMainTableProps) => {
-  const data = props.payload.data;
+  const data = props.payload.sortedData;
   const tableRows = data.map((el: IdataField, index: number) => {
     return (
       <div className={s.table_element} key={index}>
