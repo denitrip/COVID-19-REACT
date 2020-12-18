@@ -12,7 +12,6 @@ interface Props {
 }
 
 const MainList: React.FC<Props> = ({ data, className, getCountry }) => {
-  console.log(data);
   const [daily, setDaily] = useState<boolean>(true);
   const [obj, setObj] = useState<IOdjectChart>({
     daily: daily,

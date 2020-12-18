@@ -23,7 +23,12 @@ const Map = (props: {
     countryObj,
   } = props;
   const [checked, setChecked] = useState<boolean>(false);
-  const chart = useRef<any>(null);
+  const [currentActive, setCurrentActive] = useState<am4maps.MapChart>();
+  const chart = useRef(null);
+  const map = useRef(null);
+  const MapPolygonSeries = useRef(null);
+  const mapPolygon = useRef(null);
+  const switchMap = useRef(null);
 
   useEffect(() => {
     updateCheckAbsolut(checked);
@@ -90,6 +95,8 @@ const Map = (props: {
     polygonSeries.calculateVisualCenter = true;
 
     let polygonTemplate = polygonSeries.mapPolygons.template;
+    polygonTemplate.states.create("active");
+    polygonTemplate.states.create("active").properties.fill = activeColor;
     polygonTemplate.fill = countryColor;
     polygonTemplate.fillOpacity = 1;
     polygonTemplate.stroke = countryStrokeColor;
@@ -254,6 +261,7 @@ const Map = (props: {
     mapDataSwitch.rightLabel.fill = am4core.color("white");
     mapDataSwitch.rightLabel.text = "Per 100k";
     mapDataSwitch.verticalCenter = "top";
+    switchMap.current = mapDataSwitch;
 
     let mapDaySwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDaySwitch.leftLabel.text = "Total";
@@ -318,14 +326,16 @@ const Map = (props: {
     polygonTemplate.events.on("out", resetHover);
 
     polygonTemplate.events.on("hit", function (ev) {
-      ev.target.series.chart.zoomToMapObject(ev.target);
       const country = data.Countries.find(
         (e) => e.name === (ev.target.dataItem.dataContext as ICommonData).name
       );
-      getCountry(country.id, country.population);
+      if (country) getCountry(country.id, country.population);
     });
 
     chart.current = container;
+    map.current = mapChart;
+    MapPolygonSeries.current = polygonSeries;
+    mapPolygon.current = polygonTemplate;
 
     return () => {
       container.dispose();
@@ -333,7 +343,21 @@ const Map = (props: {
   }, [data]);
 
   useLayoutEffect(() => {
-    chart.current.isActive = checkAbsolut;
+    switchMap.current.isActive = checkAbsolut;
+    if (countryObj) {
+      if (currentActive) currentActive.isActive = false;
+      const country = MapPolygonSeries.current.getPolygonById(
+        countryObj.country
+      );
+      setCurrentActive(country);
+      map.current.zoomToMapObject(country);
+      setTimeout(function () {
+        country.isActive = true;
+      }, 700);
+    }
+  }, [countryObj]);
+  useLayoutEffect(() => {
+    switchMap.current.isActive = checkAbsolut;
   }, [checkAbsolut]);
 
   return (

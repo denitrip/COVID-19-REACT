@@ -44,7 +44,6 @@ const GraphContainer: React.FC<Props> = (props) => {
     if (props.countryObj) {
       setIsWord(false);
       setCountry(props.countryObj);
-      console.log(isword);
     }
   }, [props.countryObj]);
   useEffect(() => setChecked(props.checkAbsolut), [props.checkAbsolut]);
