@@ -9,10 +9,21 @@ $font-color:white;
     background-color: $color-background;
     color:$font-color
 }
-.countryName{
+.table_header{
+    display: flex;
+    flex-direction: row;
+    // align-items: center;
+    justify-content: center;
     font-size: 1.7rem;
     font-weight: bold;
-    text-align: center;
+    // text-align: center;
+    // vertical-align: middle;
+}
+
+.flag{
+    width: 30px;
+    height: 20px;
+    margin-right: 1.5rem;
 }
 
 .table_label{
@@ -50,3 +61,5 @@ $font-color:white;
     font-size: 1.6rem;
     text-align: center;
 }
+
+
