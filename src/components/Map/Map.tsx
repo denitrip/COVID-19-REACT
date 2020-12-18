@@ -7,13 +7,27 @@ import { ICovidData, IGlobal, ICommonData } from "../../model";
 
 am4core.useTheme(am4themes_animated);
 
-
-const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolut: Function, className: string }) => {
-  const { data, checkAbsolut, updateCheckAbsolut } = props;
+const Map = (props: {
+  data: ICovidData;
+  checkAbsolut: boolean;
+  updateCheckAbsolut: Function;
+  className: string;
+  getCountry: (country: string, population: number) => void;
+  countryObj: { country: string; populution: number };
+}) => {
+  const {
+    data,
+    checkAbsolut,
+    updateCheckAbsolut,
+    getCountry,
+    countryObj,
+  } = props;
   const [checked, setChecked] = useState<boolean>(false);
   const chart = useRef<any>(null);
 
-  useEffect(() => { updateCheckAbsolut(checked) }, [checked])
+  useEffect(() => {
+    updateCheckAbsolut(checked);
+  }, [checked]);
 
   useLayoutEffect(() => {
     let backgroundColor = am4core.color("#1e2128");
@@ -45,7 +59,7 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
     let mapChart = container.createChild(am4maps.MapChart);
     mapChart.width = am4core.percent(100);
     mapChart.height = am4core.percent(100);
-    mapChart.align = 'center';
+    mapChart.align = "center";
     mapChart.zoomControl = new am4maps.ZoomControl();
     mapChart.zoomControl.align = "right";
     mapChart.zoomControl.x = 0;
@@ -82,7 +96,7 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
     polygonTemplate.strokeOpacity = 0.15;
     polygonTemplate.setStateOnChildren = true;
     polygonTemplate.hoverOnFocus = true;
-    polygonTemplate.tooltipPosition = 'fixed';
+    polygonTemplate.tooltipPosition = "fixed";
 
     let polygonHoverState = polygonTemplate.states.create("hover");
     polygonHoverState.transitionDuration = 1400;
@@ -137,9 +151,24 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
 
     const totalData = data ? data.Global : {};
 
-    const confirmedButton = addButton('confirmed', confirmedColor, buttonsContainer, totalData);
-    const recoveredButton = addButton('recovered', recoveredColor, buttonsContainer, totalData);
-    const deathsButton = addButton('deaths', deathsColor, buttonsContainer, totalData);
+    const confirmedButton = addButton(
+      "confirmed",
+      confirmedColor,
+      buttonsContainer,
+      totalData
+    );
+    const recoveredButton = addButton(
+      "recovered",
+      recoveredColor,
+      buttonsContainer,
+      totalData
+    );
+    const deathsButton = addButton(
+      "deaths",
+      deathsColor,
+      buttonsContainer,
+      totalData
+    );
 
     const buttons = {
       confirmed: confirmedButton,
@@ -157,14 +186,16 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
       activeButton = buttons[name];
       activeButton.isActive = true;
 
-      Object.keys(buttons).forEach(key => {
+      Object.keys(buttons).forEach((key) => {
         if (buttons[key] !== activeButton) {
-          buttons[key].isActive = false
+          buttons[key].isActive = false;
         }
       });
 
-      let showData = `${mapDaySwitch.isActive ? 'New' : 'Total'}${capitalizeFirstLetter(name)}`;
-      showData = `${showData}${mapDataSwitch.isActive ? 'Relative' : ''}`;
+      let showData = `${
+        mapDaySwitch.isActive ? "New" : "Total"
+      }${capitalizeFirstLetter(name)}`;
+      showData = `${showData}${mapDataSwitch.isActive ? "Relative" : ""}`;
 
       imageSeries.dataFields.value = showData;
       imageSeries.heatRules.getIndex(0).max = mapDataSwitch.isActive ? 10 : 30;
@@ -173,15 +204,20 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
       circle.fill = colors[name];
 
       imageSeries.tooltip.background.fill = colors[name];
-    };
+    }
 
-    Object.values(buttons).forEach(btn => {
-      btn.events.on('hit', (e) => {
-        changeDataType(e.target.dummyData)
-      })
-    })
+    Object.values(buttons).forEach((btn) => {
+      btn.events.on("hit", (e) => {
+        changeDataType(e.target.dummyData);
+      });
+    });
 
-    function addButton(name: string, color: am4core.Color, container: am4core.Container, totalData: IGlobal | {}) {
+    function addButton(
+      name: string,
+      color: am4core.Color,
+      container: am4core.Container,
+      totalData: IGlobal | {}
+    ) {
       let button: am4core.Button = container.createChild(am4core.Button);
       button.label.valign = "middle";
       button.label.fill = am4core.color("#1e2128");
@@ -208,7 +244,6 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
       return button;
     }
 
-
     let switcherContainer = container.createChild(am4core.Container);
     switcherContainer.align = "right";
 
@@ -227,27 +262,27 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
     mapDaySwitch.rightLabel.text = "Last day";
     mapDaySwitch.verticalCenter = "top";
 
-    mapDataSwitch.events.on('toggled', () => {
+    mapDataSwitch.events.on("toggled", () => {
       const name = activeButton.dummyData;
       changeDataType(name);
-      setChecked(mapDataSwitch.isActive)
-    })
+      setChecked(mapDataSwitch.isActive);
+    });
 
-    mapDaySwitch.events.on('toggled', () => {
+    mapDaySwitch.events.on("toggled", () => {
       const name = activeButton.dummyData;
       changeDataType(name);
-    })
+    });
 
     function resetHover() {
-      polygonSeries.mapPolygons.each(polygon => {
+      polygonSeries.mapPolygons.each((polygon) => {
         const polygonCopy = polygon;
         polygonCopy.isHover = false;
-      })
+      });
 
-      imageSeries.mapImages.each(image => {
+      imageSeries.mapImages.each((image) => {
         const img = image;
         img.isHover = false;
-      })
+      });
     }
 
     function rollOverCountry(mapPolygon) {
@@ -256,32 +291,39 @@ const Map = (props: { data: ICovidData, checkAbsolut: boolean, updateCheckAbsolu
       if (mapPolygonCopy) {
         mapPolygonCopy.isHover = true;
       }
-      const mapPolygonDataContext = mapPolygonCopy.dataItem.dataContext as ICommonData;
-      const image = imageSeries.getImageById(mapPolygonDataContext.id)
+      const mapPolygonDataContext = mapPolygonCopy.dataItem
+        .dataContext as ICommonData;
+      const image = imageSeries.getImageById(mapPolygonDataContext.id);
       if (image) {
-        (image.dataItem.dataContext as ICommonData).name = mapPolygonDataContext.name;
+        (image.dataItem.dataContext as ICommonData).name =
+          mapPolygonDataContext.name;
         image.isHover = true;
       }
     }
 
     function handleCountryHover(e) {
-      rollOverCountry(e.target)
+      rollOverCountry(e.target);
     }
 
     function handleImageHover(e) {
-      rollOverCountry(polygonSeries.getPolygonById(e.target.dataItem.dataContext.id))
+      rollOverCountry(
+        polygonSeries.getPolygonById(e.target.dataItem.dataContext.id)
+      );
     }
 
-    polygonTemplate.events.on('over', handleCountryHover);
-    polygonTemplate.events.on('out', resetHover);
+    polygonTemplate.events.on("over", handleCountryHover);
+    polygonTemplate.events.on("out", resetHover);
 
-    polygonTemplate.events.on('over', handleImageHover);
-    polygonTemplate.events.on('out', resetHover);
+    polygonTemplate.events.on("over", handleImageHover);
+    polygonTemplate.events.on("out", resetHover);
 
     polygonTemplate.events.on("hit", function (ev) {
-      ev.target.series.chart.zoomToMapObject(ev.target)
+      ev.target.series.chart.zoomToMapObject(ev.target);
+      const country = data.Countries.find(
+        (e) => e.name === (ev.target.dataItem.dataContext as ICommonData).name
+      );
+      getCountry(country.id, country.population);
     });
-
 
     chart.current = container;
 

@@ -2,7 +2,7 @@ import { IPopulationAndFlags } from './population-flags.model';
 
 export interface ICovidData {
   Date: string;
-  Countries: ICountry[]; //Array<ICountry>
+  Countries: ICommonData[]; //Array<ICountry>
   Global: IGlobal[];
 }
 

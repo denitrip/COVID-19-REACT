@@ -1,9 +1,6 @@
-:root{
-  --grid-areas:
-  "header header search"
-  "mainList map mainTable"
-  "mainList map graph"
-  "footer footer footer"
+:root {
+  --grid-areas: "header header search" "mainList map mainTable"
+    "mainList map graph" "footer footer footer";
 }
 
 .app {
@@ -32,16 +29,16 @@
 
 .mainList {
   grid-area: mainList;
+  background-color: #1e2128;
 }
 
-.graph{
-    grid-area: graph;
-    position: relative;
-    padding-top: 10px;
-    background-color: #1e2128;
+.graph {
+  grid-area: graph;
+  position: relative;
+  padding-top: 10px;
+  background-color: #1e2128;
 }
 
 .footer {
   grid-area: footer;
-
 }

@@ -7,7 +7,9 @@ interface Props {
     valueDaily: boolean,
     valueType: string,
     valueCases: string,
-    valueColor: string
+    valueColor: string,
+    valueCountry: string,
+    valueName: string
   ) => void;
   updateDaily: (value: boolean) => void;
 }
@@ -17,18 +19,20 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
   const containerButtons = useRef<HTMLDivElement>(null)
   const containerActiveList = useRef<HTMLDivElement>(null)
   const dataMenu = [
-    { word: "cases", boolean: true, name: "Daily Cases", type: "linear", color: '#d21a1a' },
-    { word: "deaths", boolean: true, name: "Daily Deaths", type: "linear", color: '#1c5fe5' },
+    { word: "cases", country: 'NewConfirmed', boolean: true, name: "Daily Cases", type: "linear", color: '#d21a1a' },
+    { word: "deaths", country: 'NewDeaths', boolean: true, name: "Daily Deaths", type: "linear", color: '#1c5fe5' },
     {
       word: "recovered",
+      country: 'NewRecovered',
       boolean: true,
       name: "Daily Recovered",
       type: "linear",
       color: '#45d21a'
     },
-    { word: "cases", boolean: false, name: "Cumulative Cases", type: "linear", color: '#d21a1a' },
+    { word: "cases", country: 'TotalConfirmed', boolean: false, name: "Cumulative Cases", type: "linear", color: '#d21a1a' },
     {
       word: "deaths",
+      country: 'TotalDeaths',
       boolean: false,
       name: "Cumulative Deaths",
       type: "linear",
@@ -36,6 +40,7 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
     },
     {
       word: "recovered",
+      country: 'TotalRecovered',
       boolean: false,
       name: "Cumulative Recovered",
       type: "linear",
@@ -54,14 +59,14 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
       return () => document.removeEventListener("click", onClickOutside);
     }, [isActive])
 
-  const update = (word: string, boolean: boolean, type: string, color: string, name: string) => {
+  const update = (word: string, boolean: boolean, type: string, color: string, name: string, country: string) => {
     setActiveMenu(name)
     updateDaily(boolean);
-    updateObjectChart(boolean, type, word, color);
+    updateObjectChart(boolean, type, word, color, country, name);
   }
 
-  const handleClick = (wordUpdate: string, boolean: boolean, type: string, color: string, name: string) => {
-    update(wordUpdate, boolean, type, color, name)
+  const handleClick = (wordUpdate: string, boolean: boolean, type: string, color: string, name: string, country: string) => {
+    update(wordUpdate, boolean, type, color, name, country)
     toggleMenu()
   };
   const toggleMenu = () => {
@@ -71,12 +76,12 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
   const showNextGraph = () => {
     const index = dataMenu.findIndex((e: IDataMenu) => e.name === activeMenu)
     const i = index === dataMenu.length - 1 ? 0 : index + 1
-    update(dataMenu[i].word, dataMenu[i].boolean, dataMenu[i].type, dataMenu[i].color, dataMenu[i].name)
+    update(dataMenu[i].word, dataMenu[i].boolean, dataMenu[i].type, dataMenu[i].color, dataMenu[i].name, dataMenu[i].country)
   }
   const showPrevGraph = () => {
     const index = dataMenu.findIndex((e: IDataMenu) => e.name === activeMenu)
     const i = !index ? dataMenu.length - 1 : index - 1
-    update(dataMenu[i].word, dataMenu[i].boolean, dataMenu[i].type, dataMenu[i].color, dataMenu[i].name)
+    update(dataMenu[i].word, dataMenu[i].boolean, dataMenu[i].type, dataMenu[i].color, dataMenu[i].name, dataMenu[i].country)
   }
   return (
     <div className={style.menu}>
@@ -90,7 +95,7 @@ const MainListGraph: React.FC<Props> = ({ updateDaily, updateObjectChart }) => {
           return (
             <button
               key={i}
-              onClick={() => handleClick(item.word, item.boolean, item.type, item.color, item.name)}
+              onClick={() => handleClick(item.word, item.boolean, item.type, item.color, item.name, item.country)}
             >
               {item.name}
             </button>

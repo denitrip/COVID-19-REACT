@@ -4,6 +4,7 @@ import { Bar, Line } from "react-chartjs-2";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
 import { updateChart } from "../../services/graph.services";
+import { Spinner } from "../Spinner/Spinner";
 
 interface Props {
   data: ICovidData;
@@ -14,9 +15,11 @@ interface Props {
   chartContainer: { current: Bar | Line };
   daily: boolean;
   isLoading: boolean;
+  country: { country: string; population: number };
 }
 
 const Graph: React.FC<Props> = ({
+  country,
   data,
   objChart,
   checked,
@@ -41,18 +44,18 @@ const Graph: React.FC<Props> = ({
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: true,
     legend: {
       display: false,
     },
     scales: {
       xAxes: [
         {
-
-          color: 'white',
+          color: "white",
           type: "time",
           position: "bottom",
           time: {
-
             units: "month",
             displayFormats: {
               month: "MMM",
@@ -62,7 +65,7 @@ const Graph: React.FC<Props> = ({
       ],
       yAxes: [
         {
-          color: 'white',
+          color: "white",
           type: "linear",
           ticks: {
             beginAtZero: true,
@@ -72,8 +75,8 @@ const Graph: React.FC<Props> = ({
                 return label >= 1000000
                   ? label / 1000000 + "M"
                   : label >= 1000
-                    ? label / 1000 + "K"
-                    : label;
+                  ? label / 1000 + "K"
+                  : label;
               }
             },
           },
@@ -85,26 +88,23 @@ const Graph: React.FC<Props> = ({
   const [optionChart, setOptionChart] = useState<any>(options);
 
   useEffect(() => {
-    if (response) {
+    if (response && !isLoading) {
+      const worlPopulation = 7827000000;
       updateChart(
         isWord ? response[objChart.cases] : response.timeline[objChart.cases],
         chartContainer,
         objChart.daily,
         objChart.type,
         checked,
-        objChart.color
+        objChart.color,
+        isWord ? worlPopulation : country.population
       );
     }
-  }, [response, checked, objChart]);
+  }, [response, checked, objChart, isLoading]);
 
-  if (!response)
-    return (
-      <div className={style.container}>
-        <span className={style.spiner}></span>
-      </div>
-    );
+  if (!response || isLoading) return <Spinner />;
   return (
-    <div>
+    <div className={style.container}>
       {daily ? (
         <Bar
           data={dataChart}
@@ -113,13 +113,13 @@ const Graph: React.FC<Props> = ({
           redraw
         />
       ) : (
-          <Line
-            data={dataChart}
-            options={optionChart}
-            ref={chartContainer}
-            redraw
-          />
-        )}
+        <Line
+          data={dataChart}
+          options={optionChart}
+          ref={chartContainer}
+          redraw
+        />
+      )}
     </div>
   );
 };
