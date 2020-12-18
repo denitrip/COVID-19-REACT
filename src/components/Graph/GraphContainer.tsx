@@ -29,7 +29,7 @@ const GraphContainer: React.FC<Props> = (props) => {
     color: "#d21a1a",
     name: "Daily Cases",
   });
-  const [checked, setCheked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false);
   const chartContainer = useRef(null);
   const urlWord = `https://disease.sh/v3/covid-19/historical/all?lastdays=366`;
   const urlCountry = `https://disease.sh/v3/covid-19/historical/${country.country}?lastdays=366`;
@@ -47,7 +47,7 @@ const GraphContainer: React.FC<Props> = (props) => {
       console.log(isword);
     }
   }, [props.countryObj]);
-  useEffect(() => setCheked(props.checkAbsolut), [props.checkAbsolut]);
+  useEffect(() => setChecked(props.checkAbsolut), [props.checkAbsolut]);
   useEffect(() => props.updateCheckAbsolut(checked), [checked]);
   const updateDaily = (value: boolean): void => setDaily(value);
   const updateObjectChart = (
@@ -64,7 +64,7 @@ const GraphContainer: React.FC<Props> = (props) => {
       color: valueColor,
       name: valueName,
     });
-  const switchData = { onSwitchChange: setCheked, switchChecked: checked };
+  const switchData = { onSwitchChange: setChecked, switchChecked: checked };
   return (
     <div className={props.className}>
       <div className={style.switch}>

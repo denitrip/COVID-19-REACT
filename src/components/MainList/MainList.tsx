@@ -8,7 +8,7 @@ import { Spinner } from "../Spinner/Spinner";
 interface Props {
   className: string;
   data: ICovidData;
-  getCountry: Function;
+  getCountry: (country: string, population: number) => void;
 }
 
 const MainList: React.FC<Props> = ({ data, className, getCountry }) => {

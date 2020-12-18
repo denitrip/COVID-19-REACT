@@ -12,7 +12,7 @@ const Map = (props: {
   checkAbsolut: boolean;
   updateCheckAbsolut: Function;
   className: string;
-  getCountry: Function;
+  getCountry: (country: string, population: number) => void;
   countryObj: { country: string; populution: number };
 }) => {
   const {

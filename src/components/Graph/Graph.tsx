@@ -44,6 +44,8 @@ const Graph: React.FC<Props> = ({
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: true,
     legend: {
       display: false,
     },
@@ -87,6 +89,7 @@ const Graph: React.FC<Props> = ({
 
   useEffect(() => {
     if (response && !isLoading) {
+      const worlPopulation = 7827000000;
       updateChart(
         isWord ? response[objChart.cases] : response.timeline[objChart.cases],
         chartContainer,
@@ -94,7 +97,7 @@ const Graph: React.FC<Props> = ({
         objChart.type,
         checked,
         objChart.color,
-        isWord ? 7827000000 : country.population
+        isWord ? worlPopulation : country.population
       );
     }
   }, [response, checked, objChart, isLoading]);

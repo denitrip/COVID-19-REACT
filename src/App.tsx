@@ -14,7 +14,7 @@ function App() {
   const [data, setData] = useState<ICovidData>();
   const [error, setError] = useState();
   const [checkAbsolut, setCheckAbsolut] = useState<boolean>(false);
-  const [countryObj, setCountryOdj] = useState(null);
+  const [countryObj, setCountryObj] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,7 +33,7 @@ function App() {
   };
 
   const getCountry = (country: string, population: number) => {
-    setCountryOdj({ country, population });
+    setCountryObj({ country, population });
   };
 
   return (
