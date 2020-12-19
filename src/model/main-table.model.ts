@@ -6,7 +6,7 @@ export interface IdataField{
 export interface IMainTableProps {
     className:string,
     payload:{
-        sortedData: Array<IdataField>,
+        data: Array<IdataField>,
         country:string,
         
     },
@@ -14,4 +14,5 @@ export interface IMainTableProps {
         onSwitchChange:Function,
         switchChecked:boolean
     }
+    countryFlag:string,
 } 

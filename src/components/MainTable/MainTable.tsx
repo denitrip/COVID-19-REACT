@@ -4,7 +4,7 @@ import s from "./MainTable.module.scss";
 import { IdataField, IMainTableProps } from "../../model/main-table.model";
 
 const MainTable = (props: IMainTableProps) => {
-  const data = props.payload.sortedData;
+  const data = props.payload.data;
   const tableRows = data.map((el: IdataField, index: number) => {
     return (
       <div className={s.table_element} key={index}>
@@ -16,7 +16,10 @@ const MainTable = (props: IMainTableProps) => {
 
   return (
     <div className={[props.className, s.wrapper].join(" ")}>
-      <p className={s.countryName}>{props.payload.country}</p>
+      <p className={s.table_header}>
+        <img src={props.countryFlag} alt="country flag" className={s.flag}/>
+        <span>{props.payload.country}</span>
+        </p>
       <div className={s.table_section}>{tableRows}</div>
       <div className={s.switchSection}>
         <span>Absolute count </span>

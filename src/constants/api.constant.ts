@@ -5,3 +5,5 @@ export {
     COVID_API_URL,
     POPULATION_AND_FLAGS_API_URL
 };
+
+export const GLOBAL_POPULATION = 7827000000;
