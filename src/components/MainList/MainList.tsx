@@ -6,12 +6,11 @@ import { IOdjectChart } from "../../model/graph.model";
 import { Spinner } from "../Spinner/Spinner";
 
 interface Props {
-  className: string;
   data: ICovidData;
   getCountry: (country: string, population: number) => void;
 }
 
-const MainList: React.FC<Props> = ({ data, className, getCountry }) => {
+const MainList: React.FC<Props> = ({ data, getCountry }) => {
   const [daily, setDaily] = useState<boolean>(true);
   const [obj, setObj] = useState<IOdjectChart>({
     daily: daily,
@@ -40,15 +39,15 @@ const MainList: React.FC<Props> = ({ data, className, getCountry }) => {
       name: valueName,
     });
 
-  const handleclick = (country: string, popupation: number, event: any) => {
-    getCountry(country, popupation);
+  const handleclick = (country: string, population: number, event: any) => {
+    getCountry(country, population);
     containerCountry.current.childNodes.forEach((item: any) => {
       item.classList.remove(style.activeList);
     });
     event.currentTarget.classList.toggle(style.activeList);
   };
   return (
-    <div className={className}>
+    <div className={style.list_wrap}>
       <div className={style.header}>{obj.name}</div>
       <div className={style.containerCountry} ref={containerCountry}>
         {data ? (

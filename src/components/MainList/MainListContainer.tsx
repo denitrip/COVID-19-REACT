@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import MainList from "./MainList";
+import s from "./MainList.module.scss";
+import open from '../../assets/image/171127-200.png';
 
 const MainListContainer = (props: any) => {
+  const [isActive, setActive] = useState(false);
+
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+
   return (
-    <MainList
-      className={props.className}
-      getCountry={props.getCountry}
-      data={props.data}
-    />
+    <div className={`${props.className} ${isActive ? s.fullscreen : ""}`}>
+      <MainList
+        getCountry={props.getCountry}
+        data={props.data}
+      />
+      <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
+    </div>
+    
   );
 };
 
