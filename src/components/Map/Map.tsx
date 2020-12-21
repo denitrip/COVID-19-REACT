@@ -4,6 +4,7 @@ import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { ICovidData, IGlobal, ICommonData } from "../../model";
+import { IOdjectChart } from "../../model/graph.model";
 
 am4core.useTheme(am4themes_animated);
 
@@ -12,6 +13,15 @@ const Map = (props: {
   checkAbsolut: boolean;
   updateCheckAbsolut: Function;
   className: string;
+  objChart: IOdjectChart;
+  updateObject: (
+    valueDaily: boolean,
+    valueType: string,
+    valueCases: string,
+    valueColor: string,
+    valueCountry: string,
+    valueName: string
+  ) => void;
   getCountry: (country: string, population: number) => void;
   countryObj: { country: string; populution: number };
 }) => {
@@ -21,6 +31,8 @@ const Map = (props: {
     updateCheckAbsolut,
     getCountry,
     countryObj,
+    objChart,
+    updateObject,
   } = props;
   const [checked, setChecked] = useState<boolean>(false);
   const [currentActive, setCurrentActive] = useState<am4maps.MapChart>();
@@ -28,7 +40,10 @@ const Map = (props: {
   const map = useRef(null);
   const MapPolygonSeries = useRef(null);
   const mapPolygon = useRef(null);
-  const switchMap = useRef(null);
+  const switchData = useRef(null);
+  const switchDay = useRef(null);
+  const imageSeriesRef = useRef(null);
+  const circleImage = useRef(null);
 
   useEffect(() => {
     updateCheckAbsolut(checked);
@@ -47,7 +62,6 @@ const Map = (props: {
       recovered: recoveredColor,
       deaths: deathsColor,
     };
-
     let countryColor = am4core.color("#3b3b3b");
     let countryStrokeColor = am4core.color("#000000");
     let buttonStrokeColor = am4core.color("#ffffff");
@@ -118,6 +132,7 @@ const Map = (props: {
     let imageSeries = mapChart.series.push(new am4maps.MapImageSeries());
     imageSeries.data = mapData;
     imageSeries.dataFields.value = "TotalConfirmed";
+    imageSeriesRef.current = imageSeries;
 
     let imageTemplate = imageSeries.mapImages.template;
     imageTemplate.nonScaling = true;
@@ -125,6 +140,7 @@ const Map = (props: {
 
     let circle = imageTemplate.createChild(am4core.Circle);
     circle.fillOpacity = 0.7;
+    circleImage.current = circle;
 
     circle.fill = confirmedColor;
 
@@ -185,7 +201,7 @@ const Map = (props: {
 
     let activeButton = buttons.confirmed;
 
-    function capitalizeFirstLetter(string: string) {
+    function capitalizeFirstLetter(string: string): string {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
@@ -202,8 +218,17 @@ const Map = (props: {
       let showData = `${
         mapDaySwitch.isActive ? "New" : "Total"
       }${capitalizeFirstLetter(name)}`;
-      showData = `${showData}${mapDataSwitch.isActive ? "Relative" : ""}`;
 
+      updateObject(
+        mapDaySwitch.isActive,
+        objChart.type,
+        name === "confirmed" ? "cases" : name,
+        colors[name].hex,
+        showData,
+        objChart.name
+      );
+
+      showData = `${showData}${mapDataSwitch.isActive ? "Relative" : ""}`;
       imageSeries.dataFields.value = showData;
       imageSeries.heatRules.getIndex(0).max = mapDataSwitch.isActive ? 10 : 30;
       imageSeries.invalidateData();
@@ -261,7 +286,7 @@ const Map = (props: {
     mapDataSwitch.rightLabel.fill = am4core.color("white");
     mapDataSwitch.rightLabel.text = "Per 100k";
     mapDataSwitch.verticalCenter = "top";
-    switchMap.current = mapDataSwitch;
+    switchData.current = mapDataSwitch;
 
     let mapDaySwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDaySwitch.leftLabel.text = "Total";
@@ -269,6 +294,7 @@ const Map = (props: {
     mapDaySwitch.rightLabel.fill = am4core.color("white");
     mapDaySwitch.rightLabel.text = "Last day";
     mapDaySwitch.verticalCenter = "top";
+    switchDay.current = mapDaySwitch;
 
     mapDataSwitch.events.on("toggled", () => {
       const name = activeButton.dummyData;
@@ -343,7 +369,7 @@ const Map = (props: {
   }, [data]);
 
   useLayoutEffect(() => {
-    switchMap.current.isActive = checkAbsolut;
+    switchData.current.isActive = checkAbsolut;
     if (countryObj) {
       if (currentActive) currentActive.isActive = false;
       const country = MapPolygonSeries.current.getPolygonById(
@@ -357,8 +383,20 @@ const Map = (props: {
     }
   }, [countryObj]);
   useLayoutEffect(() => {
-    switchMap.current.isActive = checkAbsolut;
+    switchData.current.isActive = checkAbsolut;
   }, [checkAbsolut]);
+  useLayoutEffect(() => {
+    imageSeriesRef.current.dataFields.value = `${objChart.country}${
+      switchData.current.isActive ? "Relative" : ""
+    }`;
+    imageSeriesRef.current.invalidateData();
+    imageSeriesRef.current.heatRules.values[0].target.fill = am4core.color(
+      objChart.color
+    );
+  }, [objChart]);
+  useLayoutEffect(() => {
+    /* switchDay.current.isActive = objChart.daily; */
+  }, [objChart.daily]);
 
   return (
     <div

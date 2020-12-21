@@ -50,7 +50,7 @@ export function updateChart(
         daily
           ? !checked
             ? forDaily
-            : ((forDaily / population) * 10000).toFixed(3)
+            : ((forDaily / population) * 100000).toFixed(3)
           : !checked
           ? value
           : ((value / population) * 100000).toFixed(3)

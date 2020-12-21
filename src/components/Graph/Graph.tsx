@@ -88,7 +88,7 @@ const Graph: React.FC<Props> = ({
   const [optionChart, setOptionChart] = useState<any>(options);
 
   useEffect(() => {
-    if (response && !isLoading) {
+    if (response && !isLoading && !response.message) {
       const worlPopulation = 7827000000;
       updateChart(
         isWord ? response[objChart.cases] : response.timeline[objChart.cases],
@@ -102,10 +102,13 @@ const Graph: React.FC<Props> = ({
     }
   }, [response, checked, objChart, isLoading]);
 
-  if (!response || isLoading) return <Spinner />;
   return (
     <div className={style.container}>
-      {daily ? (
+      {!response || isLoading ? (
+        <Spinner />
+      ) : response.message ? (
+        <h3 className={style.message}>{response.message}</h3>
+      ) : objChart.daily ? (
         <Bar
           data={dataChart}
           options={optionChart}
