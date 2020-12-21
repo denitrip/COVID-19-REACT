@@ -21,6 +21,7 @@
 
 .map {
   grid-area: map;
+  min-height: 500px;
 }
 
 .mainTable {
@@ -41,4 +42,39 @@
 
 .footer {
   grid-area: footer;
+}
+
+@media(max-width: 1500px) {
+  .app {
+    grid-template-columns: 2fr 7fr 2fr;
+  }
+}
+
+@media(max-width: 1500px) {
+  .app {
+    grid-template-columns: 2fr 8fr 1fr;
+  }
+}
+
+@media(max-width: 1050px) {
+  :root {
+    --grid-areas: "header search" "mainList map"
+      "mainTable graph" "footer footer";
+  }
+
+  .app {
+    grid-template-columns: 3fr 7fr;
+  }
+}
+
+@media(max-width: 700px) {
+  :root {
+    --grid-areas: "header" "search" "mainList" "map"
+      "mainTable" "graph" "footer";
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 2fr 20fr 20fr 10fr 10fr 2fr;
+  }
 }

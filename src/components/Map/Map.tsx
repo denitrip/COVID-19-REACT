@@ -109,10 +109,13 @@ const Map = (props: {
     polygonHoverState.transitionDuration = 1400;
     polygonHoverState.properties.fill = countryHoverColor;
 
-    let buttonsContainer = container.createChild(am4core.Container);
-    buttonsContainer.layout = "horizontal";
-    buttonsContainer.width = am4core.percent(30);
-    buttonsContainer.height = am4core.percent(30);
+    let buttonAndSwitchContainer = container.createChild(am4core.Container);
+    buttonAndSwitchContainer.width = am4core.percent(100);
+    buttonAndSwitchContainer.layout = 'grid';
+
+    let buttonsContainer = buttonAndSwitchContainer.createChild(am4core.Container);
+    buttonsContainer.layout = "grid";
+    buttonsContainer.width = am4core.percent(55);
     buttonsContainer.zIndex = 10;
 
     let imageSeries = mapChart.series.push(new am4maps.MapImageSeries());
@@ -251,8 +254,9 @@ const Map = (props: {
       return button;
     }
 
-    let switcherContainer = container.createChild(am4core.Container);
-    switcherContainer.align = "right";
+    let switcherContainer = buttonAndSwitchContainer.createChild(am4core.Container);
+    switcherContainer.layout = 'grid';
+    switcherContainer.width = am4core.percent(45);
 
     let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDataSwitch.x = 150;
