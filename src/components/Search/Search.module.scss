@@ -1,0 +1,38 @@
+$background-colour: #1e2128;
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $background-colour;
+  .wrapper {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+      z-index: 10;
+      background-image: url(../../assets/image/search.png);
+      background-size: 15px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .input {
+      border: none;
+      outline: none;
+      padding: 5px 5px 5px 30px;
+      border-radius: 5px;
+      position: relative;
+
+      &:active {
+        border: none;
+      }
+    }
+  }
+}
