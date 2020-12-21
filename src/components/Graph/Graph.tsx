@@ -84,8 +84,8 @@ const Graph: React.FC<Props> = ({
       ],
     },
   };
-  const [dataChart, setDataChart] = useState<any>(datas);
-  const [optionChart, setOptionChart] = useState<any>(options);
+  const [dataChart] = useState<any>(datas);
+  const [optionChart] = useState<any>(options);
 
   useEffect(() => {
     if (response && !isLoading && !response.message) {

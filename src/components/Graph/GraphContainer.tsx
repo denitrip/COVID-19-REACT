@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
 import { useFetch } from "../../services/graph.services";
@@ -37,7 +37,6 @@ const GraphContainer: React.FC<Props> = (props) => {
   const urlCountry = `https://disease.sh/v3/covid-19/historical/${country.country}?lastdays=366`;
   const {
     response,
-    error,
     isLoading,
   }: { response: ICountryGraph; isLoading: boolean; error: Error } = useFetch(
     isword ? urlWord : urlCountry

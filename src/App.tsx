@@ -10,7 +10,6 @@ import Footer from "./components/Footer/Footer";
 import { commonData } from "./utils";
 import { ICommonData, ICovidData } from "./model";
 import { IOdjectChart } from "./model/graph.model";
-import { string } from "@amcharts/amcharts4/core";
 
 function App() {
   const [data, setData] = useState<ICovidData>();

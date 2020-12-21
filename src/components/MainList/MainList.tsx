@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import style from "./MainList.module.scss";
-import { ICommonData, ICovidData } from "../../model";
+import { ICommonData } from "../../model";
 import MainListGraph from "../Graph/MenuListGraph";
 import { IOdjectChart } from "../../model/graph.model";
 import { Spinner } from "../Spinner/Spinner";
@@ -68,7 +68,7 @@ const MainList: React.FC<Props> = ({
       <div className={style.containerCountry} ref={containerCountry}>
         {data ? (
           data.length === 0 ? (
-            <div className={style.not}>No results country...</div>
+            <div className={style.not}>No results...</div>
           ) : (
             data
               .map((item) =>

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import MainTable from "./MainTable";
-import { IdataField } from "../../model/main-table.model";
 import { Spinner } from "../Spinner/Spinner";
 import { GLOBAL_POPULATION } from "../../constants";
 import s from "./MainTable.module.scss";
-import defaultFlag from '../../assets/image/640px-International_Flag_of_Planet_Earth.png'
+import defaultFlag from "../../assets/image/640px-International_Flag_of_Planet_Earth.png";
 
 const MainTableContainer = (props: any) => {
   let [checked, setChecked] = useState<boolean>(false);
   useEffect(() => props.updateCheckAbsolut(checked), [checked]);
   useEffect(() => setChecked(props.checkAbsolut), [props.checkAbsolut]);
   const globalPopulation: number = GLOBAL_POPULATION;
-  let countryFlag = '';
+  let countryFlag = "";
   let population: number = undefined;
   let rawData = undefined;
-  let country:string = "";
-  
+  let country: string = "";
+
   // if no data ready for component
   if (!props.data) {
     return (
@@ -29,7 +28,7 @@ const MainTableContainer = (props: any) => {
     rawData = props.data.Global;
     country = "Global";
     population = globalPopulation;
-    countryFlag = defaultFlag
+    countryFlag = defaultFlag;
   } else {
     population = props.countryObj.population;
     let countryCode = props.countryObj.country;
@@ -37,7 +36,7 @@ const MainTableContainer = (props: any) => {
       return el.alpha2Code === countryCode;
     }).pop();
     country = rawData.Country;
-    countryFlag = rawData.flag
+    countryFlag = rawData.flag;
   }
 
   let fieldsForData = [
