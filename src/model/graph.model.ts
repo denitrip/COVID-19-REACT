@@ -11,6 +11,7 @@ export interface ICountryGraph {
   country: string;
   province: string[];
   timeline: IWordGraph;
+  message?: string;
 }
 
 export interface IWordGraph {
@@ -25,4 +26,14 @@ export interface IDataMenu {
   name: string;
   type: string;
   color: string;
+  country: string;
+}
+
+export interface IUpdate {
+  valueDaily: boolean;
+  valueType: string;
+  valueCases: string;
+  valueColor: string;
+  valueCountry: string;
+  valueName: string;
 }

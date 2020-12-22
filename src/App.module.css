@@ -26,11 +26,13 @@
 
 .mainTable {
   grid-area: mainTable;
+  position: relative;
 }
 
 .mainList {
   grid-area: mainList;
   background-color: #1e2128;
+  position: relative;
 }
 
 .graph {

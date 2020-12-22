@@ -1,87 +1,117 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./MainList.module.scss";
-import { ICovidData } from "../../model";
+import { ICommonData } from "../../model";
 import MainListGraph from "../Graph/MenuListGraph";
 import { IOdjectChart } from "../../model/graph.model";
 import { Spinner } from "../Spinner/Spinner";
+import Switch from "../Switch/Switch";
 
 interface Props {
-  className: string;
-  data: ICovidData;
+  isLoading: boolean;
+  data: ICommonData[];
   getCountry: (country: string, population: number) => void;
-}
-
-const MainList: React.FC<Props> = ({ data, className, getCountry }) => {
-  const [daily, setDaily] = useState<boolean>(true);
-  const [obj, setObj] = useState<IOdjectChart>({
-    daily: daily,
-    type: "linear",
-    cases: "cases",
-    color: "#d21a1a",
-    country: "TotalConfirmed",
-    name: "Daily Cases",
-  });
-  const containerCountry = useRef(null);
-  const updateDaily = (value: boolean): void => setDaily(value);
-  const updateObjectChart = (
+  objChart: IOdjectChart;
+  checkAbsolut: boolean;
+  updateCheckAbsolut: (value: boolean) => void;
+  updateObject: (
     valueDaily: boolean,
     valueType: string,
     valueCases: string,
     valueColor: string,
     valueCountry: string,
     valueName: string
-  ): void =>
-    setObj({
-      daily: valueDaily,
-      type: valueType,
-      cases: valueCases,
-      color: valueColor,
-      country: valueCountry,
-      name: valueName,
-    });
+  ) => void;
+}
 
-  const handleclick = (country: string, popupation: number, event: any) => {
-    getCountry(country, popupation);
-    containerCountry.current.childNodes.forEach((item: any) => {
-      item.classList.remove(style.activeList);
-    });
-    event.currentTarget.classList.toggle(style.activeList);
+const MainList: React.FC<Props> = ({
+  data,
+  getCountry,
+  updateObject,
+  objChart,
+  checkAbsolut,
+  updateCheckAbsolut,
+  isLoading,
+}) => {
+  const [checked, setChecked] = useState<boolean>(false);
+  const [daily, setDaily] = useState<boolean>(true);
+  const switchData = { onSwitchChange: setChecked, switchChecked: checked };
+  const containerCountry = useRef(null);
+  const updateDaily = (value: boolean): void => setDaily(value);
+
+  useEffect(() => setChecked(checkAbsolut), [checkAbsolut]);
+  useEffect(() => updateCheckAbsolut(checked), [checked]);
+
+  const handleclick = (country: string, population: number, event: any) => {
+    if (!isLoading) {
+      getCountry(country, population);
+      containerCountry.current.childNodes.forEach((item: any) => {
+        item.classList.remove(style.activeList);
+      });
+      event.currentTarget.classList.toggle(style.activeList);
+    }
   };
+
   return (
-    <div className={className}>
-      <div className={style.header}>{obj.name}</div>
+    <div className={style.list_wrap}>
+      <div className={style.header}>{objChart.country}</div>
+      <div className={style.switch}>
+        <span>Absolute</span>
+        <Switch
+          name="switchMain"
+          checked={switchData.switchChecked}
+          onChange={switchData.onSwitchChange}
+        />
+        <span>Per 100k</span>
+      </div>
       <div className={style.containerCountry} ref={containerCountry}>
         {data ? (
-          data.Countries.sort((a, b) => b[obj.country] - a[obj.country]).map(
-            (country) => {
-              return (
-                <div
-                  className={style.item}
-                  key={country.id}
-                  onClick={(e) =>
-                    handleclick(country.id, country.population, e)
-                  }
-                >
-                  <img
-                    src={country.flag}
-                    width={15}
-                    height={10}
-                    alt={country.id}
-                  />
-                  <span>{country.Country}</span>
-                  <span style={{ color: obj.color }}>
-                    {country[obj.country]}
-                  </span>
-                </div>
-              );
-            }
+          data.length === 0 ? (
+            <div className={style.not}>No results...</div>
+          ) : (
+            data
+              .map((item) =>
+                checked
+                  ? {
+                      ...item,
+                      [objChart.country]: (
+                        (item[objChart.country] / item.population) *
+                        100000
+                      ).toFixed(3),
+                    }
+                  : item
+              )
+              .sort((a, b) => b[objChart.country] - a[objChart.country])
+              .map((country) => {
+                return (
+                  <div
+                    className={style.item}
+                    key={country.id}
+                    onClick={(e) =>
+                      handleclick(country.id, country.population, e)
+                    }
+                  >
+                    <img
+                      src={country.flag}
+                      width={15}
+                      height={10}
+                      alt={country.id}
+                    />
+                    <span>{country.Country}</span>
+                    <span style={{ color: objChart.color }}>
+                      {country[objChart.country]}
+                    </span>
+                  </div>
+                );
+              })
           )
         ) : (
           <Spinner />
         )}
       </div>
       <MainListGraph
-        updateObjectChart={updateObjectChart}
+        isLoading={data ? false : true}
+        objChart={objChart}
+        updateObjectChart={updateObject}
         updateDaily={updateDaily}
       />
     </div>

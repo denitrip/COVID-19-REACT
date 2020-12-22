@@ -4,7 +4,6 @@ export interface IdataField{
 }
 
 export interface IMainTableProps {
-    className:string,
     payload:{
         data: Array<IdataField>,
         country:string,
