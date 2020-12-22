@@ -3,8 +3,8 @@ import MainTable from "./MainTable";
 import { Spinner } from "../Spinner/Spinner";
 import { GLOBAL_POPULATION } from "../../constants";
 import s from "./MainTable.module.scss";
-import defaultFlag from '../../assets/image/640px-International_Flag_of_Planet_Earth.png';
-import open from '../../assets/image/171127-200.png';
+import defaultFlag from "../../assets/image/640px-International_Flag_of_Planet_Earth.png";
+import open from "../../assets/image/171127-200.png";
 
 const MainTableContainer = (props: any) => {
   const [isActive, setActive] = useState(false);
@@ -15,12 +15,12 @@ const MainTableContainer = (props: any) => {
   let countryFlag = "";
   let population: number = undefined;
   let rawData = undefined;
-  let country:string = "";
+  let country: string = "";
 
   const handleToggle = () => {
     setActive(!isActive);
   };
-  
+
   // if no data ready for component
   if (!props.data) {
     return (
@@ -74,7 +74,9 @@ const MainTableContainer = (props: any) => {
         switchData={switchData}
         countryFlag={countryFlag}
       />
-      <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
+      <button className={s.btn_fullscreen} onClick={handleToggle}>
+        <img src={open} alt={"icon"} />
+      </button>
     </div>
   );
 };

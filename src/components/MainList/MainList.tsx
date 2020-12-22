@@ -8,7 +8,6 @@ import Switch from "../Switch/Switch";
 
 interface Props {
   isLoading: boolean;
-  className: string;
   data: ICommonData[];
   getCountry: (country: string, population: number) => void;
   objChart: IOdjectChart;
@@ -26,7 +25,6 @@ interface Props {
 
 const MainList: React.FC<Props> = ({
   data,
-  className,
   getCountry,
   updateObject,
   objChart,
@@ -43,10 +41,9 @@ const MainList: React.FC<Props> = ({
   useEffect(() => setChecked(checkAbsolut), [checkAbsolut]);
   useEffect(() => updateCheckAbsolut(checked), [checked]);
 
-
-  const handleclick = (country: string, popupation: number, event: any) => {
+  const handleclick = (country: string, population: number, event: any) => {
     if (!isLoading) {
-      getCountry(country, popupation);
+      getCountry(country, population);
       containerCountry.current.childNodes.forEach((item: any) => {
         item.classList.remove(style.activeList);
       });
@@ -55,7 +52,7 @@ const MainList: React.FC<Props> = ({
   };
 
   return (
-    <div className={className}>
+    <div className={style.list_wrap}>
       <div className={style.header}>{objChart.country}</div>
       <div className={style.switch}>
         <span>Absolute</span>

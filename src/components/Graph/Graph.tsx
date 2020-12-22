@@ -33,8 +33,7 @@ const Graph: React.FC<Props> = ({
     labels: [],
     datasets: [
       {
-        barPercentage: 0.1,
-        barThickness: 1,
+        barPercentage: 0.9,
         data: [],
         fill: false,
         backgroundColor: "#d21a1a",
@@ -45,7 +44,7 @@ const Graph: React.FC<Props> = ({
 
   const options = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     legend: {
       display: false,
     },
