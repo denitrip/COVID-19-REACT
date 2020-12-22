@@ -6,6 +6,7 @@ import Switch from "../Switch/Switch";
 import Graph from "./Graph";
 import MainListGraph from "./MenuListGraph";
 import style from "./Graph.module.scss";
+import open from '../../assets/image/171127-200.png';
 
 interface Props {
   className: string;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const GraphContainer: React.FC<Props> = (props) => {
+  const [isActive, setActive] = useState(false);
   const [country, setCountry] = useState<{
     country: string;
     population: number;
@@ -64,8 +66,13 @@ const GraphContainer: React.FC<Props> = (props) => {
       name: valueName,
     });
   const switchData = { onSwitchChange: setChecked, switchChecked: checked };
+
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+
   return (
-    <div className={props.className}>
+    <div className={`${props.className} ${isActive ? style.fullscreen : ""}`}>
       <div className={style.switch}>
         <span>Absolute</span>
         <Switch
@@ -90,6 +97,7 @@ const GraphContainer: React.FC<Props> = (props) => {
         updateObjectChart={updateObjectChart}
         updateDaily={updateDaily}
       />
+      <button className={style.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
     </div>
   );
 };

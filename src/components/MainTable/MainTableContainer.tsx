@@ -4,9 +4,11 @@ import { IdataField } from "../../model/main-table.model";
 import { Spinner } from "../Spinner/Spinner";
 import { GLOBAL_POPULATION } from "../../constants";
 import s from "./MainTable.module.scss";
-import defaultFlag from '../../assets/image/640px-International_Flag_of_Planet_Earth.png'
+import defaultFlag from '../../assets/image/640px-International_Flag_of_Planet_Earth.png';
+import open from '../../assets/image/171127-200.png';
 
 const MainTableContainer = (props: any) => {
+  const [isActive, setActive] = useState(false);
   let [checked, setChecked] = useState<boolean>(false);
   useEffect(() => props.updateCheckAbsolut(checked), [checked]);
   useEffect(() => setChecked(props.checkAbsolut), [props.checkAbsolut]);
@@ -15,6 +17,10 @@ const MainTableContainer = (props: any) => {
   let population: number = undefined;
   let rawData = undefined;
   let country:string = "";
+
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
   
   // if no data ready for component
   if (!props.data) {
@@ -63,12 +69,14 @@ const MainTableContainer = (props: any) => {
     }
   }
   return (
-    <MainTable
-      payload={{ data, country }}
-      className={props.className}
-      switchData={switchData}
-      countryFlag={countryFlag}
-    />
+    <div className={`${props.className} ${isActive ? s.fullscreen : ""}`}>
+      <MainTable
+        payload={{ data, country }}
+        switchData={switchData}
+        countryFlag={countryFlag}
+      />
+      <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
+    </div>
   );
 };
 
