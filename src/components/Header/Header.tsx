@@ -5,7 +5,6 @@ import { ICovidData } from "../../model";
 const Header = (props: { data: ICovidData, className: string }) => {
 
     const data = props.data;
-    console.log(data)
 
     return(
         <div className={[props.className, style.header_block].join(' ')}>
