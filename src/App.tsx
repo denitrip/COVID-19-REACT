@@ -68,7 +68,10 @@ function App() {
 
   return (
     <div className={s.app}>
-      <Header className={s.header} />
+      <Header 
+        className={s.header}
+        data={data} 
+      />
       <SearchContainer
         className={s.search}
         data={data}
@@ -94,22 +97,24 @@ function App() {
         data={data}
         className={s.map}
       />
-      <MainTableContainer
-        data={data}
-        countryObj={countryObj}
-        updateCheckAbsolut={updateCheckAbsolut}
-        checkAbsolut={checkAbsolut}
-        className={s.mainTable}
-      />
-      <GraphContainer
-        objChart={objChart}
-        updateObject={updateObject}
-        countryObj={countryObj}
-        updateCheckAbsolut={updateCheckAbsolut}
-        checkAbsolut={checkAbsolut}
-        data={data}
-        className={s.graph}
-      />
+      <div className={s.mainTableWrap}>
+        <MainTableContainer
+          data={data}
+          countryObj={countryObj}
+          updateCheckAbsolut={updateCheckAbsolut}
+          checkAbsolut={checkAbsolut}
+          className={s.mainTable}
+        />
+        <GraphContainer
+          objChart={objChart}
+          updateObject={updateObject}
+          countryObj={countryObj}
+          updateCheckAbsolut={updateCheckAbsolut}
+          checkAbsolut={checkAbsolut}
+          data={data}
+          className={s.graph}
+        />
+      </div> 
       <Footer className={s.footer} />
     </div>
   );

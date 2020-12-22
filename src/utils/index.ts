@@ -24,6 +24,7 @@ export const commonData = (): Promise<any> => {
             return {
                 Global: values[0].Global,
                 Countries: obj,
+                Date: values[0].Date,
             }
         })
 };

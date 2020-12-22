@@ -16,6 +16,7 @@ export interface ICountry {
   TotalConfirmed: number;
   TotalDeaths: number;
   TotalRecovered: number;
+  Date: string;
 }
 
 export interface IGlobal {

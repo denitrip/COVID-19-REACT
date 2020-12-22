@@ -1,8 +1,14 @@
 .header_name {
     text-align: left;
     color: white;
-    padding-left: 60px;
 }
 .header_block {
     background: #1e2128;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+}
+.header_date {
+    color: white;
 }

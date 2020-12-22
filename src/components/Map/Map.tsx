@@ -5,6 +5,7 @@ import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { ICovidData, IGlobal, ICommonData } from "../../model";
 import { IOdjectChart } from "../../model/graph.model";
+import { Spinner } from "../Spinner/Spinner";
 
 am4core.useTheme(am4themes_animated);
 
@@ -68,7 +69,7 @@ const Map = (props: {
 
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
-    container.height = am4core.percent(100);
+    container.height = am4core.percent(90);
     container.background.fill = backgroundColor;
     container.tooltip = new am4core.Tooltip();
     container.tooltip.background.fill = am4core.color("#000000");
@@ -126,12 +127,12 @@ const Map = (props: {
     let buttonAndSwitchContainer = container.createChild(am4core.Container);
     buttonAndSwitchContainer.width = am4core.percent(100);
     buttonAndSwitchContainer.layout = 'grid';
+    buttonAndSwitchContainer.y = 30;
 
     let buttonsContainer = buttonAndSwitchContainer.createChild(am4core.Container);
     buttonsContainer.layout = "grid";
     buttonsContainer.width = am4core.percent(55);
     buttonsContainer.zIndex = 10;
-    buttonsContainer.y = 30;
 
     let imageSeries = mapChart.series.push(new am4maps.MapImageSeries());
     imageSeries.data = mapData;
@@ -403,7 +404,17 @@ const Map = (props: {
     /* switchDay.current.isActive = objChart.daily; */
   }, [objChart.daily]);
 
-  return <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>;
+  return (
+    <>
+      {" "}
+      {!data ? (
+        <Spinner />
+      ) : (
+        <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
+      )}
+    </>
+  );
+  // return <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>;
 };
 
 export default Map;
