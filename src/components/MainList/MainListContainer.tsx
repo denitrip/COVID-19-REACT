@@ -13,12 +13,17 @@ const MainListContainer = (props: any) => {
   return (
     <div className={`${props.className} ${isActive ? s.fullscreen : ""}`}>
       <MainList
-        getCountry={props.getCountry}
-        data={props.data}
-      />
+      isLoading={props.isLoading}
+      objChart={props.objChart}
+      updateObject={props.updateObject}
+      className={props.className}
+      updateCheckAbsolut={props.updateCheckAbsolut}
+      checkAbsolut={props.checkAbsolut}
+      getCountry={props.getCountry}
+      data={props.data}
+    />
       <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
     </div>
-    
   );
 };
 

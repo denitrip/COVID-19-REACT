@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MainTable from "./MainTable";
-import { IdataField } from "../../model/main-table.model";
 import { Spinner } from "../Spinner/Spinner";
 import { GLOBAL_POPULATION } from "../../constants";
 import s from "./MainTable.module.scss";
@@ -13,7 +12,7 @@ const MainTableContainer = (props: any) => {
   useEffect(() => props.updateCheckAbsolut(checked), [checked]);
   useEffect(() => setChecked(props.checkAbsolut), [props.checkAbsolut]);
   const globalPopulation: number = GLOBAL_POPULATION;
-  let countryFlag = '';
+  let countryFlag = "";
   let population: number = undefined;
   let rawData = undefined;
   let country:string = "";
@@ -35,7 +34,7 @@ const MainTableContainer = (props: any) => {
     rawData = props.data.Global;
     country = "Global";
     population = globalPopulation;
-    countryFlag = defaultFlag
+    countryFlag = defaultFlag;
   } else {
     population = props.countryObj.population;
     let countryCode = props.countryObj.country;
@@ -43,7 +42,7 @@ const MainTableContainer = (props: any) => {
       return el.alpha2Code === countryCode;
     }).pop();
     country = rawData.Country;
-    countryFlag = rawData.flag
+    countryFlag = rawData.flag;
   }
 
   let fieldsForData = [

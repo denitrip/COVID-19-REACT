@@ -12,16 +12,17 @@ const MapContainer = (props: any) => {
 
   return (
     <div className={`${props.className} ${isActive ? s.fullscreen : ""}`}>
-      <Map
-        getCountry={props.getCountry}
-        countryObj={props.countryObj}
-        updateCheckAbsolut={props.updateCheckAbsolut}
-        checkAbsolut={props.checkAbsolut}
-        data={props.data}
-      />
-      <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
-    </div>
-    
+    <Map
+      objChart={props.objChart}
+      updateObject={props.updateObject}
+      getCountry={props.getCountry}
+      countryObj={props.countryObj}
+      updateCheckAbsolut={props.updateCheckAbsolut}
+      checkAbsolut={props.checkAbsolut}
+      data={props.data}
+    />
+    <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
+   </div>
   );
 };
 

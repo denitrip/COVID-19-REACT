@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ICovidData } from "../../model";
 import { ICountryGraph, IOdjectChart } from "../../model/graph.model";
 import { useFetch } from "../../services/graph.services";
@@ -12,7 +12,16 @@ interface Props {
   className: string;
   data: ICovidData;
   checkAbsolut: boolean;
+  objChart: IOdjectChart;
   countryObj: { country: string; population: number };
+  updateObject: (
+    valueDaily: boolean,
+    valueType: string,
+    valueCases: string,
+    valueColor: string,
+    valueCountry: string,
+    valueName: string
+  ) => void;
   updateCheckAbsolut: (value: boolean) => void;
 }
 
@@ -23,21 +32,13 @@ const GraphContainer: React.FC<Props> = (props) => {
     population: number;
   }>({ country: "belurus", population: 0 });
   const [isword, setIsWord] = useState<boolean>(true);
-  const [daily, setDaily] = useState<boolean>(true);
-  const [objChart, setObjChart] = useState<IOdjectChart>({
-    daily: daily,
-    type: "linear",
-    cases: "cases",
-    color: "#d21a1a",
-    name: "Daily Cases",
-  });
+  const [daily, setDaily] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
   const chartContainer = useRef(null);
   const urlWord = `https://disease.sh/v3/covid-19/historical/all?lastdays=366`;
   const urlCountry = `https://disease.sh/v3/covid-19/historical/${country.country}?lastdays=366`;
   const {
     response,
-    error,
     isLoading,
   }: { response: ICountryGraph; isLoading: boolean; error: Error } = useFetch(
     isword ? urlWord : urlCountry
@@ -51,20 +52,6 @@ const GraphContainer: React.FC<Props> = (props) => {
   useEffect(() => setChecked(props.checkAbsolut), [props.checkAbsolut]);
   useEffect(() => props.updateCheckAbsolut(checked), [checked]);
   const updateDaily = (value: boolean): void => setDaily(value);
-  const updateObjectChart = (
-    valueDaily: boolean,
-    valueType: string,
-    valueCases: string,
-    valueColor: string,
-    valueName: string
-  ): void =>
-    setObjChart({
-      daily: valueDaily,
-      type: valueType,
-      cases: valueCases,
-      color: valueColor,
-      name: valueName,
-    });
   const switchData = { onSwitchChange: setChecked, switchChecked: checked };
 
   const handleToggle = () => {
@@ -82,19 +69,23 @@ const GraphContainer: React.FC<Props> = (props) => {
         />
         <span>Per 100k</span>
       </div>
-      <Graph
-        country={country}
-        data={props.data}
-        objChart={objChart}
-        checked={checked}
-        response={response}
-        isLoading={isLoading}
-        daily={daily}
-        chartContainer={chartContainer}
-        isWord={isword}
-      />
+      {
+        <Graph
+          country={country}
+          data={props.data}
+          objChart={props.objChart}
+          checked={checked}
+          response={response}
+          isLoading={isLoading}
+          daily={daily}
+          chartContainer={chartContainer}
+          isWord={isword}
+        />
+      }
       <MainListGraph
-        updateObjectChart={updateObjectChart}
+        isLoading={isLoading}
+        objChart={props.objChart}
+        updateObjectChart={props.updateObject}
         updateDaily={updateDaily}
       />
       <button className={style.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>

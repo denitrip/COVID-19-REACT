@@ -2,7 +2,13 @@ $background-colour: #1e2128;
 $background-hover-colour: #1b1b1b;
 $border-color: #3b3b3b;
 $white: #fff;
-
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  color: $white;
+}
 .header {
   padding: 5px;
   font-size: 15px;
@@ -10,13 +16,18 @@ $white: #fff;
   color: $white;
   text-align: center;
 }
+.not {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
 .activeList {
   background-color: $background-hover-colour;
 }
 .containerCountry {
   overflow: hidden;
   overflow-y: scroll;
-  height: calc(100% - 50px);
+  height: calc(100% - 80px);
   color: $white;
 
   .item {
