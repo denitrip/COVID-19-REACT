@@ -15,7 +15,7 @@ const MainTable = (props: IMainTableProps) => {
   });
 
   return (
-    <div className={[props.className, s.wrapper].join(" ")}>
+    <div className={s.wrapper}>
       <p className={s.table_header}>
         <img src={props.countryFlag} alt="country flag" className={s.flag}/>
         <span>{props.payload.country}</span>

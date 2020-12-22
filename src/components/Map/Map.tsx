@@ -84,6 +84,7 @@ const Map = (props: {
     mapChart.zoomControl.x = 0;
     mapChart.zoomControl.valign = "bottom";
     mapChart.homeGeoPoint = { longitude: 0, latitude: -2 };
+    mapChart.y = 50;
 
     let mapData = data ? data.Countries : [];
 
@@ -128,6 +129,7 @@ const Map = (props: {
     buttonsContainer.width = am4core.percent(30);
     buttonsContainer.height = am4core.percent(30);
     buttonsContainer.zIndex = 10;
+    buttonsContainer.y = 30;
 
     let imageSeries = mapChart.series.push(new am4maps.MapImageSeries());
     imageSeries.data = mapData;
@@ -247,10 +249,10 @@ const Map = (props: {
     function addButton(
       name: string,
       color: am4core.Color,
-      container: am4core.Container,
+      buttonsContainer: am4core.Container,
       totalData: IGlobal | {}
     ) {
-      let button: am4core.Button = container.createChild(am4core.Button);
+      let button: am4core.Button = buttonsContainer.createChild(am4core.Button);
       button.label.valign = "middle";
       button.label.fill = am4core.color("#1e2128");
       button.label.fontSize = "11px";
@@ -278,6 +280,7 @@ const Map = (props: {
 
     let switcherContainer = container.createChild(am4core.Container);
     switcherContainer.align = "right";
+    switcherContainer.y = 30;
 
     let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDataSwitch.x = 150;
@@ -400,7 +403,6 @@ const Map = (props: {
 
   return (
     <div
-      className={props.className}
       id="chartdiv"
       style={{ width: "100%", height: "100%" }}
     ></div>

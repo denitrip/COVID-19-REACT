@@ -43,6 +43,7 @@ const MainList: React.FC<Props> = ({
   useEffect(() => setChecked(checkAbsolut), [checkAbsolut]);
   useEffect(() => updateCheckAbsolut(checked), [checked]);
 
+
   const handleclick = (country: string, popupation: number, event: any) => {
     if (!isLoading) {
       getCountry(country, popupation);

@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import s from "./Map.module.css";
 import Map from "./Map";
+import open from '../../assets/image/171127-200.png';
 
 const MapContainer = (props: any) => {
+  const [isActive, setActive] = useState(false);
+
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+
   return (
+    <div className={`${props.className} ${isActive ? s.fullscreen : ""}`}>
     <Map
       objChart={props.objChart}
       updateObject={props.updateObject}
@@ -11,8 +20,9 @@ const MapContainer = (props: any) => {
       updateCheckAbsolut={props.updateCheckAbsolut}
       checkAbsolut={props.checkAbsolut}
       data={props.data}
-      className={props.className}
     />
+    <button className={s.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
+   </div>
   );
 };
 
