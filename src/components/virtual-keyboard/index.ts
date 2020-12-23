@@ -170,23 +170,6 @@ export class Keyboard {
         case "AltLeft":
           keyElement.classList.add("keyboard__key--alt");
           keyElement.innerHTML = this.createIconHTML("keyboard_voice");
-          /* keyElement.addEventListener("click", () => {
-            this.textarea.focus();
-            this.playAudio();
-            this.recognition.lang = this.language ? "en-US" : "ru-RU";
-            if (this.voice) {
-              document
-                .querySelector(`.keyboard__key[data-code="AltLeft"]`)
-                ?.classList.add("keyboard__key--active_voice");
-              this.recognition.start();
-            } else {
-              this.recognition.stop();
-              document
-                .querySelector(`.keyboard__key[data-code="AltLeft"]`)
-                ?.classList.remove("keyboard__key--active_voice");
-            }
-            this.voice = !this.voice;
-          }); */
           break;
         case "AltRight":
           keyElement.innerHTML = this.createIconHTML(

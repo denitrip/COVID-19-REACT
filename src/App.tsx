@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import s from "./App.module.css";
 import Header from "./components/Header/Header";
-import SearchContainer from "./components/Search/SearchContainer";
 import MainListContainer from "./components/MainList/MainListContainer";
 import MapContainer from "./components/Map/MapContainer";
 import MainTableContainer from "./components/MainTable/MainTableContainer";
 import GraphContainer from "./components/Graph/GraphContainer";
 import Footer from "./components/Footer/Footer";
 import { commonData } from "./utils";
-import { ICommonData, ICovidData } from "./model";
+import { ICovidData } from "./model";
 import { IOdjectChart } from "./model/graph.model";
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
   const [checkAbsolut, setCheckAbsolut] = useState<boolean>(false);
   const [countryObj, setCountryObj] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [dataSearch, setDataSearch] = useState();
   const [objChart, setObj] = useState<IOdjectChart>({
     daily: false,
     type: "linear",
@@ -34,7 +32,6 @@ function App() {
         const dataObj = await commonData();
         setData(dataObj);
         setIsLoading(false);
-        setDataSearch(dataObj.Countries);
       } catch (error) {
         setError(error);
       }

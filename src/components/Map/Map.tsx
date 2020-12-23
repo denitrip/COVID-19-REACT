@@ -5,7 +5,6 @@ import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { ICovidData, IGlobal, ICommonData } from "../../model";
 import { IOdjectChart } from "../../model/graph.model";
-import { Spinner } from "../Spinner/Spinner";
 
 am4core.useTheme(am4themes_animated);
 
