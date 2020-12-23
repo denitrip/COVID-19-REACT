@@ -430,7 +430,7 @@ const Map = (props: {
     <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
   );
 
-  return data ? maps : <Spinner />;
+  return maps;
 };
 
 export default Map;
