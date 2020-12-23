@@ -65,7 +65,7 @@
   .app {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 2fr 2fr 15fr 20fr 10fr 10fr 2fr;
+    grid-template-rows: 2fr 2fr 10fr 20fr 10fr 10fr 2fr;
     grid-template-areas:
       "header"
       "search"
