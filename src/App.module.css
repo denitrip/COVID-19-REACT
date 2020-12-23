@@ -1,27 +1,33 @@
-:root {
-  --grid-areas: "header header search" "mainList map mainTable"
-    "mainList map graph" "footer footer footer";
-}
-
 .app {
   display: grid;
-  grid-template-areas: var(--grid-areas);
-  grid-template-rows: 2fr 20fr 8fr 2fr;
+  grid-template-rows: 2fr 1fr 20fr 2fr;
   grid-template-columns: 2fr 6fr 3fr;
   height: 100%;
 }
 
 .header {
-  grid-area: header;
+  grid-area: 1 / 1 / 2 / 4;
 }
 
 .search {
-  grid-area: search;
+  grid-area: 2 / 1 / 3 / 2;
+  padding: 10px 0;
 }
 
 .map {
-  grid-area: map;
+  grid-area: 2 / 2 / 4 / 3;
+  min-height: 500px;
   position: relative;
+}
+
+.mainTableWrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4fr 3fr;
+  grid-template-areas:
+    "mainTable"
+    "graph";
+  grid-area: 2 / 3 / 4 / 4;
 }
 
 .mainTable {
@@ -30,7 +36,7 @@
 }
 
 .mainList {
-  grid-area: mainList;
+  grid-area: 3 / 1 / 4 / 2;
   background-color: #1e2128;
   position: relative;
 }
@@ -43,5 +49,91 @@
 }
 
 .footer {
-  grid-area: footer;
+  grid-area: 4 / 1 / 5 / 4;
+}
+
+@media(max-width: 1500px) {
+  .app {
+    grid-template-columns: 2fr 8fr 1fr;
+  }
+}
+
+@media(max-width: 1050px) {
+  .app{
+    grid-template-columns: 2fr 6fr;
+    grid-template-rows: 2fr 2fr 20fr 15fr 2fr;
+  }
+  .header {
+    grid-area: 1 / 1 / 2 / 4;
+  }
+  
+  .search {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  
+  .map {
+    grid-area: 2 / 2 / 4 / 3;
+  }
+
+  .mainTableWrap {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "mainTable graph";
+    grid-area: 4 / 1 / 5 / 3;
+  }
+  
+  .mainList {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+  
+  .footer {
+    grid-area: 5 / 1 / 6 / 3;
+  }
+}
+
+@media(max-width: 700px) {
+  .app {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 2fr 15fr 20fr 20fr 2fr;
+    grid-template-areas:
+      "header"
+      "search"
+      "mainList"
+      "map"
+      "mainTableWrap"
+      "footer";
+  }
+  .header { 
+    grid-area: header; 
+  }
+  .search { 
+    grid-area: search; 
+  }
+  .mainList { 
+    grid-area: mainList; 
+  }
+  .map { 
+    grid-area: map; 
+  }
+  .mainTableWrap {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "mainTable"
+      "graph";
+    grid-area: mainTableWrap;
+  }
+  .mainTable { 
+    grid-area: mainTable; 
+  }
+  .graph { 
+    grid-area: graph; 
+  }
+  .footer { 
+    grid-area: footer; 
+  }
 }

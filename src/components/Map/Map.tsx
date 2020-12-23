@@ -5,6 +5,7 @@ import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { ICovidData, IGlobal, ICommonData } from "../../model";
 import { IOdjectChart } from "../../model/graph.model";
+import { Spinner } from "../Spinner/Spinner";
 
 am4core.useTheme(am4themes_animated);
 
@@ -43,6 +44,7 @@ const Map = (props: {
   const switchDay = useRef(null);
   const imageSeriesRef = useRef(null);
   const circleImage = useRef(null);
+  const updateButton = useRef(null);
 
   useEffect(() => {
     updateCheckAbsolut(checked);
@@ -68,7 +70,7 @@ const Map = (props: {
 
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
-    container.height = am4core.percent(100);
+    container.height = am4core.percent(90);
     container.background.fill = backgroundColor;
     container.tooltip = new am4core.Tooltip();
     container.tooltip.background.fill = am4core.color("#000000");
@@ -123,12 +125,15 @@ const Map = (props: {
     polygonHoverState.transitionDuration = 1400;
     polygonHoverState.properties.fill = countryHoverColor;
 
-    let buttonsContainer = container.createChild(am4core.Container);
-    buttonsContainer.layout = "horizontal";
-    buttonsContainer.width = am4core.percent(30);
-    buttonsContainer.height = am4core.percent(30);
+    let buttonAndSwitchContainer = container.createChild(am4core.Container);
+    buttonAndSwitchContainer.width = am4core.percent(100);
+    buttonAndSwitchContainer.layout = 'grid';
+    buttonAndSwitchContainer.y = 30;
+
+    let buttonsContainer = buttonAndSwitchContainer.createChild(am4core.Container);
+    buttonsContainer.layout = "grid";
+    buttonsContainer.width = am4core.percent(55);
     buttonsContainer.zIndex = 10;
-    buttonsContainer.y = 30;
 
     let imageSeries = mapChart.series.push(new am4maps.MapImageSeries());
     imageSeries.data = mapData;
@@ -271,15 +276,14 @@ const Map = (props: {
 
       button.dummyData = name;
       const dataOnButton = totalData[`Total${capitalizeFirstLetter(name)}`];
-
       button.label.text = `${capitalizeFirstLetter(name)}: ${dataOnButton}`;
 
       return button;
     }
 
-    let switcherContainer = container.createChild(am4core.Container);
-    switcherContainer.align = "right";
-    switcherContainer.y = 30;
+    let switcherContainer = buttonAndSwitchContainer.createChild(am4core.Container);
+    switcherContainer.layout = 'grid';
+    switcherContainer.width = am4core.percent(45);
 
     let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
     mapDataSwitch.x = 150;
@@ -353,11 +357,30 @@ const Map = (props: {
     polygonTemplate.events.on("over", handleImageHover);
     polygonTemplate.events.on("out", resetHover);
 
+    const changeButtonContent = () => {
+      return (country) => {
+        for (var key in buttons) {
+          const dataOnButton =
+            country[
+              `${
+                mapDaySwitch.isActive ? "New" : "Total"
+              }${capitalizeFirstLetter(key)}`
+            ];
+
+          buttons[key].label.text = `${capitalizeFirstLetter(
+            key
+          )}: ${dataOnButton}`;
+        }
+      };
+    };
+    updateButton.current = changeButtonContent();
     polygonTemplate.events.on("hit", function (ev) {
       const country = data.Countries.find(
         (e) => e.name === (ev.target.dataItem.dataContext as ICommonData).name
       );
-      if (country) getCountry(country.id, country.population);
+      if (country) {
+        getCountry(country.id, country.population);
+      }
     });
 
     chart.current = container;
@@ -371,7 +394,6 @@ const Map = (props: {
   }, [data]);
 
   useLayoutEffect(() => {
-    switchData.current.isActive = checkAbsolut;
     if (countryObj) {
       if (currentActive) currentActive.isActive = false;
       const country = MapPolygonSeries.current.getPolygonById(
@@ -379,6 +401,8 @@ const Map = (props: {
       );
       setCurrentActive(country);
       map.current.zoomToMapObject(country);
+      const item = data.Countries.find((e) => e.id === countryObj.country);
+      updateButton.current(item);
       setTimeout(function () {
         country.isActive = true;
       }, 700);
@@ -396,11 +420,17 @@ const Map = (props: {
       objChart.color
     );
   }, [objChart]);
-  useLayoutEffect(() => {
-    /* switchDay.current.isActive = objChart.daily; */
-  }, [objChart.daily]);
 
-  return <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>;
+  return (
+    <>
+      {" "}
+      {!data ? (
+        <Spinner />
+      ) : (
+        <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
+      )}
+    </>
+  );
 };
 
 export default Map;
