@@ -34,6 +34,7 @@ const Map = (props: {
     objChart,
     updateObject,
   } = props;
+
   const [checked, setChecked] = useState<boolean>(false);
   const [currentActive, setCurrentActive] = useState<am4maps.MapChart>();
   const chart = useRef(null);
@@ -127,10 +128,12 @@ const Map = (props: {
 
     let buttonAndSwitchContainer = container.createChild(am4core.Container);
     buttonAndSwitchContainer.width = am4core.percent(100);
-    buttonAndSwitchContainer.layout = 'grid';
+    buttonAndSwitchContainer.layout = "grid";
     buttonAndSwitchContainer.y = 30;
 
-    let buttonsContainer = buttonAndSwitchContainer.createChild(am4core.Container);
+    let buttonsContainer = buttonAndSwitchContainer.createChild(
+      am4core.Container
+    );
     buttonsContainer.layout = "grid";
     buttonsContainer.width = am4core.percent(55);
     buttonsContainer.zIndex = 10;
@@ -281,8 +284,10 @@ const Map = (props: {
       return button;
     }
 
-    let switcherContainer = buttonAndSwitchContainer.createChild(am4core.Container);
-    switcherContainer.layout = 'grid';
+    let switcherContainer = buttonAndSwitchContainer.createChild(
+      am4core.Container
+    );
+    switcherContainer.layout = "grid";
     switcherContainer.width = am4core.percent(45);
 
     let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
@@ -421,16 +426,11 @@ const Map = (props: {
     );
   }, [objChart]);
 
-  return (
-    <>
-      {" "}
-      {!data ? (
-        <Spinner />
-      ) : (
-        <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
-      )}
-    </>
+  const maps = (
+    <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
   );
+
+  return data ? maps : <Spinner />;
 };
 
 export default Map;

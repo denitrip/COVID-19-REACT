@@ -26,6 +26,7 @@ const Search = (props: {
         );
       });
       setValue(value);
+      console.log(filter);
       updateDataSearch(filter);
     }
   }, [value]);
