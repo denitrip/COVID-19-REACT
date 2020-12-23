@@ -96,8 +96,7 @@ function App() {
         checkAbsolut={checkAbsolut}
         data={data}
         className={s.map}
-      />
-      <div className={s.mainTableWrap}>
+      />    
         <MainTableContainer
           data={data}
           countryObj={countryObj}
@@ -113,8 +112,7 @@ function App() {
           checkAbsolut={checkAbsolut}
           data={data}
           className={s.graph}
-        />
-      </div> 
+        />      
       <Footer className={s.footer} />
     </div>
   );
