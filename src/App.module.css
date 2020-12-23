@@ -1,5 +1,6 @@
 .app {
   display: grid;
+  grid-template-rows: 2fr 1fr 20fr 2fr;
   grid-template-columns: 2fr 6fr 3fr;
   grid-template-rows: 2fr 2fr 10fr 10fr 2fr;
   gap: 0px 0px;
