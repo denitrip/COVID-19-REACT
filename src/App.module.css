@@ -1,0 +1,89 @@
+.app {
+  display: grid;
+  grid-template-columns: 2fr 6fr 3fr;
+  grid-template-rows: 0.5fr 4fr 2fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "header header header"
+    "mainList map mainTable"
+    "mainList map graph"
+    "footer footer footer";
+}
+.header {
+  grid-area: header;
+}
+.mainList {
+  grid-area: mainList;
+  background-color: #1e2128;
+  position: relative;
+}
+.map {
+  grid-area: map;
+  min-height: 500px;
+  position: relative;
+}
+.mainTable {
+  grid-area: mainTable;
+  position: relative;
+}
+.graph {
+  grid-area: graph;
+  position: relative;
+  padding-top: 10px;
+  background-color: #1e2128;
+}
+.footer {
+  grid-area: footer;
+}
+
+@media (max-width: 1299px) {
+  .app {
+    grid-template-columns: 2fr 8fr 1fr;
+  }
+}
+
+@media (max-width: 1050px) {
+  .app {
+    grid-template-columns: 2fr 6fr;
+    grid-template-rows: 2fr 10fr 10fr 10fr 2fr;
+    grid-template-areas:
+      "header header"
+      "mainList map"
+      "mainList map"
+      "mainTable graph"
+      "footer footer";
+  }
+}
+
+@media (max-width: 700px) {
+  .app {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 10fr 20fr 10fr 10fr 2fr;
+    grid-template-areas:
+      "header"
+      "mainList"
+      "map"
+      "mainTable"
+      "graph"
+      "footer";
+  }
+  .header {
+    grid-area: header;
+  }
+  .mainList {
+    grid-area: mainList;
+  }
+  .map {
+    grid-area: map;
+  }
+  .mainTable {
+    grid-area: mainTable;
+  }
+  .graph {
+    grid-area: graph;
+  }
+  .footer {
+    grid-area: footer;
+  }
+}
