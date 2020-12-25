@@ -1,139 +1,89 @@
 .app {
   display: grid;
-  grid-template-rows: 2fr 1fr 20fr 2fr;
   grid-template-columns: 2fr 6fr 3fr;
-  height: 100%;
+  grid-template-rows: 0.5fr 4fr 2fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "header header header"
+    "mainList map mainTable"
+    "mainList map graph"
+    "footer footer footer";
 }
-
 .header {
-  grid-area: 1 / 1 / 2 / 4;
+  grid-area: header;
 }
-
-.search {
-  grid-area: 2 / 1 / 3 / 2;
-  padding: 10px 0;
+.mainList {
+  grid-area: mainList;
+  background-color: #1e2128;
+  position: relative;
 }
-
 .map {
-  grid-area: 2 / 2 / 4 / 3;
+  grid-area: map;
   min-height: 500px;
   position: relative;
 }
-
-.mainTableWrap {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 4fr 3fr;
-  grid-template-areas:
-    "mainTable"
-    "graph";
-  grid-area: 2 / 3 / 4 / 4;
-}
-
 .mainTable {
   grid-area: mainTable;
   position: relative;
 }
-
-.mainList {
-  grid-area: 3 / 1 / 4 / 2;
-  background-color: #1e2128;
-  position: relative;
-}
-
 .graph {
   grid-area: graph;
   position: relative;
   padding-top: 10px;
   background-color: #1e2128;
 }
-
 .footer {
-  grid-area: 4 / 1 / 5 / 4;
+  grid-area: footer;
 }
 
-@media(max-width: 1500px) {
+@media (max-width: 1299px) {
   .app {
     grid-template-columns: 2fr 8fr 1fr;
   }
 }
 
-@media(max-width: 1050px) {
-  .app{
+@media (max-width: 1050px) {
+  .app {
     grid-template-columns: 2fr 6fr;
-    grid-template-rows: 2fr 2fr 20fr 15fr 2fr;
-  }
-  .header {
-    grid-area: 1 / 1 / 2 / 4;
-  }
-  
-  .search {
-    grid-area: 2 / 1 / 3 / 2;
-  }
-  
-  .map {
-    grid-area: 2 / 2 / 4 / 3;
-  }
-
-  .mainTableWrap {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
+    grid-template-rows: 2fr 10fr 10fr 10fr 2fr;
     grid-template-areas:
-      "mainTable graph";
-    grid-area: 4 / 1 / 5 / 3;
-  }
-  
-  .mainList {
-    grid-area: 3 / 1 / 4 / 2;
-  }
-  
-  .footer {
-    grid-area: 5 / 1 / 6 / 3;
+      "header header"
+      "mainList map"
+      "mainList map"
+      "mainTable graph"
+      "footer footer";
   }
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .app {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 2fr 2fr 15fr 20fr 20fr 2fr;
+    grid-template-rows: 2fr 10fr 20fr 10fr 10fr 2fr;
     grid-template-areas:
       "header"
-      "search"
       "mainList"
       "map"
-      "mainTableWrap"
+      "mainTable"
+      "graph"
       "footer";
   }
-  .header { 
-    grid-area: header; 
+  .header {
+    grid-area: header;
   }
-  .search { 
-    grid-area: search; 
+  .mainList {
+    grid-area: mainList;
   }
-  .mainList { 
-    grid-area: mainList; 
+  .map {
+    grid-area: map;
   }
-  .map { 
-    grid-area: map; 
+  .mainTable {
+    grid-area: mainTable;
   }
-  .mainTableWrap {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-      "mainTable"
-      "graph";
-    grid-area: mainTableWrap;
+  .graph {
+    grid-area: graph;
   }
-  .mainTable { 
-    grid-area: mainTable; 
-  }
-  .graph { 
-    grid-area: graph; 
-  }
-  .footer { 
-    grid-area: footer; 
+  .footer {
+    grid-area: footer;
   }
 }

@@ -27,7 +27,7 @@ $white: #fff;
 .containerCountry {
   overflow: hidden;
   overflow-y: scroll;
-  max-height: 630px;
+  height: calc(100vh - 250px);
   color: $white;
 
   .item {
@@ -101,13 +101,13 @@ $white: #fff;
   width: 100%;
 }
 
-@media(max-width: 1050px) {
+@media (max-width: 1050px) {
   .containerCountry {
     max-height: 755px;
   }
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .containerCountry {
     max-height: 400px;
   }

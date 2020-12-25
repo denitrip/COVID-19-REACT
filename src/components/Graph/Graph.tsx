@@ -33,7 +33,9 @@ const Graph: React.FC<Props> = ({
     labels: [],
     datasets: [
       {
-        barPercentage: 0.9,
+        barPercentage: 1,
+        minBarLength: 1,
+        categoryPercentage: 1,
         data: [],
         fill: false,
         backgroundColor: "#d21a1a",
@@ -55,6 +57,7 @@ const Graph: React.FC<Props> = ({
           type: "time",
           position: "bottom",
           time: {
+            tooltipFormat: "ll",
             units: "month",
             displayFormats: {
               month: "MMM",

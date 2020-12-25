@@ -5,7 +5,6 @@ import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { ICovidData, IGlobal, ICommonData } from "../../model";
 import { IOdjectChart } from "../../model/graph.model";
-import { Spinner } from "../Spinner/Spinner";
 
 am4core.useTheme(am4themes_animated);
 
@@ -34,6 +33,7 @@ const Map = (props: {
     objChart,
     updateObject,
   } = props;
+
   const [checked, setChecked] = useState<boolean>(false);
   const [currentActive, setCurrentActive] = useState<am4maps.MapChart>();
   const chart = useRef(null);
@@ -127,10 +127,12 @@ const Map = (props: {
 
     let buttonAndSwitchContainer = container.createChild(am4core.Container);
     buttonAndSwitchContainer.width = am4core.percent(100);
-    buttonAndSwitchContainer.layout = 'grid';
+    buttonAndSwitchContainer.layout = "grid";
     buttonAndSwitchContainer.y = 30;
 
-    let buttonsContainer = buttonAndSwitchContainer.createChild(am4core.Container);
+    let buttonsContainer = buttonAndSwitchContainer.createChild(
+      am4core.Container
+    );
     buttonsContainer.layout = "grid";
     buttonsContainer.width = am4core.percent(55);
     buttonsContainer.zIndex = 10;
@@ -281,8 +283,10 @@ const Map = (props: {
       return button;
     }
 
-    let switcherContainer = buttonAndSwitchContainer.createChild(am4core.Container);
-    switcherContainer.layout = 'grid';
+    let switcherContainer = buttonAndSwitchContainer.createChild(
+      am4core.Container
+    );
+    switcherContainer.layout = "grid";
     switcherContainer.width = am4core.percent(45);
 
     let mapDataSwitch = switcherContainer.createChild(am4core.SwitchButton);
@@ -421,16 +425,11 @@ const Map = (props: {
     );
   }, [objChart]);
 
-  return (
-    <>
-      {" "}
-      {!data ? (
-        <Spinner />
-      ) : (
-        <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
-      )}
-    </>
+  const maps = (
+    <div id="chartdiv" style={{ width: "100%", height: "100%" }}></div>
   );
+
+  return maps;
 };
 
 export default Map;

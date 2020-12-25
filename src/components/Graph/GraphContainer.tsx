@@ -6,7 +6,7 @@ import Switch from "../Switch/Switch";
 import Graph from "./Graph";
 import MainListGraph from "./MenuListGraph";
 import style from "./Graph.module.scss";
-import open from '../../assets/image/171127-200.png';
+import open from "../../assets/image/171127-200.png";
 
 interface Props {
   className: string;
@@ -88,7 +88,9 @@ const GraphContainer: React.FC<Props> = (props) => {
         updateObjectChart={props.updateObject}
         updateDaily={updateDaily}
       />
-      <button className={style.btn_fullscreen} onClick={handleToggle}><img src={open} /></button>
+      <button className={style.btn_fullscreen} onClick={handleToggle}>
+        <img src={open} alt={"icon"} />
+      </button>
     </div>
   );
 };
